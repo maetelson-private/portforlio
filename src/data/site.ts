@@ -60,11 +60,3 @@ export const experience: { period: string; title: string; role: string }[] = [
   { period: '2024.07 ~ 2024.08', title: 'FutuRES College, Hyundai Motor Chung Mong-Koo Foundation, 3rd cohort', role: 'Completed' },
   { period: '2023.09 ~ 2024.08', title: 'Ssiat, SNU and Ewha arts education volunteer club', role: 'Artist team' },
 ];
-
-export const toolkit: { group: string; items: string[] }[] = [
-  { group: 'Strategy & Investment', items: ['Market research', 'Survey · IDI', 'BM · GTM', 'ESG DD (KVIC · MSCI · SASB)', 'EV/GMV valuation', 'PowerPoint', 'Excel'] },
-  { group: 'Data', items: ['Python', 'pandas · parquet', 'LLM labeling', 'SQL'] },
-  { group: 'Design', items: ['Figma', 'FigJam', 'Design system', 'BI · BX', 'Print'] },
-  { group: 'Frontend', items: ['TypeScript', 'React', 'Next.js', 'React Native · Expo', 'Vite', 'Tailwind CSS', 'TanStack Query', 'Zustand'] },
-  { group: 'Backend & Infra', items: ['Cloudflare Workers', 'Hono', 'D1 · R2', 'Zod', 'Spring Boot', 'MySQL', 'GitHub Actions'] },
-];

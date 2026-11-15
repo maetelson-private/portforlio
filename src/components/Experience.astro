@@ -1,5 +1,5 @@
 ---
-import { experience, toolkit } from '../data/site';
+import { experience } from '../data/site';
 ---
 
 <section class="section" id="experience" aria-labelledby="exp-title">
@@ -9,102 +9,52 @@ import { experience, toolkit } from '../data/site';
       <p>Roles I have held in student societies, clubs, and startup teams.</p>
     </div>
 
-    <div class="cols">
-      <ol class="timeline reveal">
-        {
-          experience.map((e) => (
-            <li>
-              <span class="period">{e.period}</span>
-              <div>
-                <p class="title">{e.title}</p>
-                <p class="role">{e.role}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-
-      <div class="tools reveal">
-        <h3 class="rule-title">Toolkit</h3>
-        {
-          toolkit.map((g) => (
-            <div class="group">
-              <p class="g">{g.group}</p>
-              <ul>
-                {g.items.map((i) => (
-                  <li class="tag">{i}</li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-      </div>
-    </div>
+    <ol class="timeline reveal">
+      {
+        experience.map((e) => (
+          <li>
+            <span class="period">{e.period}</span>
+            <span class="title">{e.title}</span>
+            <span class="role">{e.role}</span>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
 
 <style>
-  .cols {
-    display: grid;
-    gap: 48px;
-  }
-  @media (min-width: 960px) {
-    .cols {
-      grid-template-columns: 1.4fr 1fr;
-      gap: 64px;
-    }
-  }
   .timeline {
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--line-strong);
   }
   .timeline li {
     display: grid;
-    grid-template-columns: 1fr;
     gap: 4px;
     padding: 18px 0;
     border-bottom: 1px solid var(--line);
   }
-  @media (min-width: 640px) {
+  @media (min-width: 760px) {
     .timeline li {
-      grid-template-columns: 180px 1fr;
-      gap: 24px;
+      grid-template-columns: 180px minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: baseline;
     }
   }
   .period {
-    padding-top: 2px;
     font-size: 13px;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
   }
   .title {
+    font-size: 16px;
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
   .role {
-    color: var(--text-2);
     font-size: 14px;
-  }
-  .tools {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    padding: 28px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-    align-self: start;
-  }
-  .g {
-    font-size: 13px;
     color: var(--text-2);
-    margin-bottom: 10px;
-  }
-  .group ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
   }
 </style>
