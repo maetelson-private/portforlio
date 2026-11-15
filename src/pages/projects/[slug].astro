@@ -1,0 +1,353 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Wave from '../../components/Wave.astro';
+import { disciplines } from '../../data/site';
+import { getProjects, type Project } from '../../lib/projects';
+import { url } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+const { project, next } = Astro.props;
+const p = project.data;
+const d = disciplines[p.primary];
+const { Content } = await render(project);
+
+const links = [
+  p.links.live && { label: 'Live', href: p.links.live },
+  p.links.repo && { label: 'GitHub', href: p.links.repo },
+  p.links.figma && { label: 'Figma', href: p.links.figma },
+  p.links.notion && { label: 'Notion 기획서', href: p.links.notion },
+  ...(p.links.extra ?? []),
+].filter(Boolean) as { label: string; href: string }[];
+---
+
+<Base title={`${p.title} — 손하늘 포트폴리오`} description={p.summary}>
+  <article>
+    <header class="head grid-bg">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="container">
+        <a class="back mono" href={url(`/#${p.primary}`)}>← {d.no} {d.ko}</a>
+        <p class="eyebrow">{d.no} — {d.en}{p.featured && ' · ★ Featured'}</p>
+        <h1>{p.title}</h1>
+        <p class="lede">{p.summary}</p>
+
+        <dl class="meta">
+          <div>
+            <dt>기간</dt>
+            <dd>{p.period}</dd>
+          </div>
+          {
+            p.org && (
+              <div>
+                <dt>소속</dt>
+                <dd>{p.org}</dd>
+              </div>
+            )
+          }
+          <div>
+            <dt>역할</dt>
+            <dd class="tags">
+              {p.roles.map((r) => (
+                <span class="tag tag-green">{r}</span>
+              ))}
+            </dd>
+          </div>
+          {
+            p.award && (
+              <div>
+                <dt>성과</dt>
+                <dd class="award">
+                  <Icon name="trophy" size={14} /> {p.award}
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+
+        {
+          (links.length > 0 || p.links.repoPrivate) && (
+            <div class="links">
+              {links.map((l) => (
+                <a class="btn btn-ghost" href={l.href} target="_blank" rel="noopener noreferrer">
+                  {l.label} <Icon name="arrow-up-right" size={14} />
+                </a>
+              ))}
+              {p.links.repoPrivate && (
+                <span class="btn btn-ghost private" title="비공개 레포 — 요청 시 코드 공유">
+                  <Icon name="lock" size={14} /> Private repo · 요청 시 공유
+                </span>
+              )}
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="banner container" aria-hidden="true">
+      <div class="wave"><Wave seed={p.sort % 7} lines={64} /></div>
+    </div>
+
+    <div class="container layout">
+      <div class="prose">
+        <Content />
+      </div>
+      {
+        p.stack.length > 0 && (
+          <aside class="side">
+            <p class="eyebrow">Stack & Tools</p>
+            <ul>
+              {p.stack.map((s) => (
+                <li class="tag">{s}</li>
+              ))}
+            </ul>
+          </aside>
+        )
+      }
+    </div>
+
+    <nav class="container next" aria-label="다음 프로젝트">
+      <a href={url(`/projects/${next.id}/`)}>
+        <span class="mono">Next project</span>
+        <span class="nt">{next.data.title} <Icon name="arrow" size={22} /></span>
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .head {
+    position: relative;
+    padding-block: clamp(48px, 8vw, 96px) 40px;
+    overflow: hidden;
+  }
+  .glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(60% 70% at 80% 0%, rgba(46, 229, 157, 0.1), transparent 60%),
+      linear-gradient(180deg, transparent 60%, var(--bg));
+    pointer-events: none;
+  }
+  .head .container {
+    position: relative;
+  }
+  .back {
+    display: inline-block;
+    margin-bottom: 36px;
+    color: var(--text-2);
+  }
+  .back:hover {
+    color: var(--green);
+  }
+  h1 {
+    margin-top: 14px;
+    font-family: var(--font-display);
+    font-size: clamp(40px, 7vw, 84px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 1.02;
+  }
+  .lede {
+    margin-top: 20px;
+    max-width: 680px;
+    font-size: clamp(17px, 1.8vw, 20px);
+    color: var(--text-2);
+  }
+  .meta {
+    display: grid;
+    gap: 18px 32px;
+    margin: 40px 0 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 760px) {
+    .meta {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+  }
+  dt {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  dd {
+    margin: 0;
+    font-size: 14px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .award {
+    display: flex;
+    gap: 8px;
+    color: var(--green);
+  }
+  .award :global(svg) {
+    flex: none;
+    margin-top: 4px;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+  .private {
+    cursor: default;
+    color: var(--text-2);
+  }
+  .banner .wave {
+    height: clamp(160px, 22vw, 260px);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #070908;
+  }
+  .banner .wave :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .layout {
+    display: grid;
+    gap: 40px;
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  @media (min-width: 960px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 72px;
+    }
+  }
+  .side {
+    align-self: start;
+    position: sticky;
+    top: 96px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+  .side ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .prose {
+    max-width: 720px;
+    font-size: 16px;
+    color: var(--text-2);
+  }
+  .prose :global(h2) {
+    margin: 52px 0 18px;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(h2)::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    margin-bottom: 16px;
+    background: var(--green);
+  }
+  .prose :global(p) {
+    margin: 0 0 16px;
+  }
+  .prose :global(strong) {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .prose :global(ul) {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 16px;
+  }
+  .prose :global(ul ul) {
+    margin: 10px 0 0;
+  }
+  .prose :global(li) {
+    position: relative;
+    padding-left: 20px;
+  }
+  .prose :global(li)::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.72em;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--green);
+    opacity: 0.8;
+  }
+  .prose :global(ul ul li)::before {
+    background: transparent;
+    border: 1px solid var(--muted);
+  }
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  .prose :global(blockquote) {
+    margin: 28px 0 0;
+    padding: 16px 20px;
+    border-left: 2px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    background: var(--green-soft);
+  }
+  .prose :global(blockquote p) {
+    margin: 0;
+    color: var(--text);
+  }
+  .next {
+    padding-bottom: clamp(64px, 9vw, 120px);
+  }
+  .next a {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .nt {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4.5vw, 52px);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    transition: color 0.3s, gap 0.3s var(--ease);
+  }
+  .next a:hover .nt {
+    color: var(--green);
+    gap: 20px;
+  }
+</style>

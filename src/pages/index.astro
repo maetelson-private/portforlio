@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Disciplines from '../components/Disciplines.astro';
+import Featured from '../components/Featured.astro';
+import DisciplineSection from '../components/DisciplineSection.astro';
+import Experience from '../components/Experience.astro';
+import Contact from '../components/Contact.astro';
+import { disciplineOrder } from '../data/site';
+import { getProjects } from '../lib/projects';
+
+const projects = await getProjects();
+const featuredOrder = ['knewit', 'polaris-office', 'logue', 'cueslate'];
+const featured = featuredOrder
+  .map((id) => projects.find((p) => p.id === id))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+const byDiscipline = Object.fromEntries(
+  disciplineOrder.map((k) => [k, projects.filter((p) => p.data.primary === k)]),
+) as Record<(typeof disciplineOrder)[number], typeof projects>;
+
+const counts = Object.fromEntries(disciplineOrder.map((k) => [k, byDiscipline[k].length])) as Record<
+  (typeof disciplineOrder)[number],
+  number
+>;
+---
+
+<Base>
+  <Hero />
+  <Disciplines counts={counts} />
+  <Featured projects={featured} />
+  {disciplineOrder.map((k) => <DisciplineSection id={k} projects={byDiscipline[k]} />)}
+  <Experience />
+  <Contact />
+</Base>

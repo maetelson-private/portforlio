@@ -1,0 +1,110 @@
+---
+import { experience, toolkit, profile } from '../data/site';
+---
+
+<section class="section" id="experience" aria-labelledby="exp-title">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow sec-num">04 — Experience</span>
+        <h2 id="exp-title">함께 만든 곳들<span class="text-green">.</span></h2>
+      </div>
+      <p>{profile.school}</p>
+    </div>
+
+    <div class="cols">
+      <ol class="timeline reveal">
+        {
+          experience.map((e) => (
+            <li>
+              <span class="mono period">{e.period}</span>
+              <div>
+                <p class="title">{e.title}</p>
+                <p class="role">{e.role}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="tools reveal">
+        <p class="eyebrow">Toolkit</p>
+        {
+          toolkit.map((g) => (
+            <div class="group">
+              <p class="g">{g.group}</p>
+              <ul>
+                {g.items.map((i) => (
+                  <li class="tag">{i}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cols {
+    display: grid;
+    gap: 48px;
+  }
+  @media (min-width: 960px) {
+    .cols {
+      grid-template-columns: 1.4fr 1fr;
+      gap: 64px;
+    }
+  }
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 640px) {
+    .timeline li {
+      grid-template-columns: 180px 1fr;
+      gap: 24px;
+    }
+  }
+  .period {
+    padding-top: 3px;
+  }
+  .title {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .role {
+    color: var(--text-2);
+    font-size: 14px;
+  }
+  .tools {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    align-self: start;
+  }
+  .g {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-bottom: 10px;
+  }
+  .group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+</style>

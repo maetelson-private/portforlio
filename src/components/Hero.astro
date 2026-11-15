@@ -1,0 +1,92 @@
+---
+import Icon from './Icon.astro';
+import { profile } from '../data/site';
+import { url } from '../lib/url';
+---
+
+<section class="hero grid-bg" aria-labelledby="hero-title">
+  <div class="fade" aria-hidden="true"></div>
+  <div class="container inner">
+    <div class="left">
+      <span class="chip"><Icon name="spark" size={14} /> Profile · 2026</span>
+      <h1 id="hero-title">
+        <span class="l1">연결하고, 이해하는</span>
+        <span class="l2">올라운더, 손하늘.</span>
+      </h1>
+    </div>
+    <div class="right">
+      <p>
+        {profile.intro}
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href={url('#works')}>Explore Works <Icon name="arrow" size={16} /></a>
+        <a class="btn btn-ghost" href={url('#contact')}>Contact</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(56px, 9vw, 110px);
+    padding-bottom: clamp(36px, 5vw, 56px);
+    overflow: hidden;
+  }
+  .fade {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(80% 60% at 70% 0%, rgba(46, 229, 157, 0.09), transparent 60%),
+      linear-gradient(180deg, transparent 55%, var(--bg));
+    pointer-events: none;
+  }
+  .inner {
+    position: relative;
+    display: grid;
+    gap: 36px;
+  }
+  @media (min-width: 900px) {
+    .inner {
+      grid-template-columns: 1.6fr 1fr;
+      gap: 64px;
+      align-items: end;
+    }
+  }
+  h1 {
+    margin-top: 26px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1.06;
+    letter-spacing: -0.055em;
+  }
+  h1 span {
+    display: block;
+  }
+  @media (min-width: 900px) {
+    h1 span {
+      white-space: nowrap;
+    }
+  }
+  .l2 {
+    background: linear-gradient(90deg, var(--green) 0%, #9dffd6 55%, var(--green-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .right {
+    max-width: 420px;
+    padding-bottom: 10px;
+  }
+  .right p {
+    color: var(--text-2);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+</style>

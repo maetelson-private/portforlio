@@ -1,0 +1,178 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import Wave from './Wave.astro';
+import { url } from '../lib/url';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+const { projects } = Astro.props;
+---
+
+<section class="section featured" id="works" aria-labelledby="featured-title">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow sec-num">★ Featured Work</span>
+        <h2 id="featured-title">기획부터 배포까지,<br /><span class="text-green">직접 끝까지.</span></h2>
+      </div>
+      <p>
+        기획·디자인·개발을 모두 맡은 프로젝트입니다. 전략을 세운 사람이 화면을 그리고, 그 화면을 직접 코드로
+        옮겼습니다.
+      </p>
+    </div>
+
+    <ul class="grid">
+      {
+        projects.map((project, i) => {
+          const p = project.data;
+          return (
+            <li class="fc reveal" style={`transition-delay:${i * 60}ms`}>
+              <a href={url(`/projects/${project.id}/`)} class="link">
+                <div class="visual" aria-hidden="true">
+                  <Wave seed={i + 3} lines={40} />
+                  <span class="idx">{String(i + 1).padStart(2, '0')}.</span>
+                </div>
+                <div class="body">
+                  <div class="meta">
+                    <span class="mono">{p.period}</span>
+                    {p.links.repoPrivate && (
+                      <span class="tag">
+                        <Icon name="lock" size={12} />
+                        &nbsp;Private
+                      </span>
+                    )}
+                  </div>
+                  <h3>{p.title}</h3>
+                  <p class="sum">{p.summary}</p>
+                  {p.award && (
+                    <p class="award">
+                      <Icon name="trophy" size={14} />
+                      {p.award}
+                    </p>
+                  )}
+                  <ul class="roles">
+                    {p.roles.map((r) => (
+                      <li class="tag tag-green">{r}</li>
+                    ))}
+                  </ul>
+                  <span class="more">
+                    케이스 스터디 보기 <Icon name="arrow" size={15} />
+                  </span>
+                </div>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--surface), var(--bg-elev));
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  }
+  .link:hover {
+    border-color: var(--green-line);
+    transform: translateY(-4px);
+    box-shadow: 0 40px 80px -48px rgba(46, 229, 157, 0.4);
+  }
+  .visual {
+    position: relative;
+    height: 180px;
+    margin: 8px 8px 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #070908;
+  }
+  .visual :global(svg) {
+    width: 100%;
+    height: 100%;
+    transition: transform 1.2s var(--ease);
+  }
+  .link:hover .visual :global(svg) {
+    transform: scale(1.06);
+  }
+  .idx {
+    position: absolute;
+    left: 18px;
+    bottom: 10px;
+    font-family: var(--font-display);
+    font-size: 56px;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.85);
+    mix-blend-mode: overlay;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    padding: 24px 26px 26px;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  h3 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 2.6vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+  }
+  .sum {
+    color: var(--text-2);
+    font-size: 15px;
+  }
+  .award {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    color: var(--green);
+    font-size: 13px;
+  }
+  .award :global(svg) {
+    flex: none;
+    margin-top: 3px;
+  }
+  .roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .link:hover .more {
+    color: var(--green);
+  }
+</style>
