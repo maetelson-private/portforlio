@@ -6,7 +6,6 @@
   --surface-2: #1a1e1c;
   --line: rgba(255, 255, 255, 0.07);
   --line-strong: rgba(255, 255, 255, 0.14);
-  --grid: rgba(255, 255, 255, 0.035);
 
   --text: #edf0ee;
   --text-2: #b4bbb7;
@@ -27,7 +26,6 @@
     'Malgun Gothic', system-ui, sans-serif;
   /* 전부 Pretendard. 라벨은 같은 서체에 자간·대문자로 구분하고, 코드만 고정폭 */
   --font-display: var(--font-sans);
-  --font-mono: var(--font-sans);
   --font-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --max: 1200px;
@@ -98,6 +96,25 @@ button {
   background: var(--green);
   color: #04130c;
 }
+html {
+  scrollbar-color: #2f3532 var(--bg);
+  caret-color: var(--green);
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #2f3532;
+  border: 2px solid var(--bg);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #47504c;
+}
 
 /* ───────────── Layout helpers ───────────── */
 .container {
@@ -106,98 +123,9 @@ button {
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
-.grid-bg {
-  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 64px 64px;
-  background-position: center top;
-}
 .section {
   padding-block: clamp(80px, 12vw, 140px);
   border-top: 1px solid var(--line);
-}
-
-/* ───────────── Atoms ───────────── */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px 6px 8px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-2);
-}
-.chip svg {
-  color: var(--green);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  height: 46px;
-  padding: 0 22px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  transition: transform 0.25s var(--ease), background 0.25s var(--ease), box-shadow 0.25s var(--ease),
-    border-color 0.25s var(--ease);
-}
-.btn-primary {
-  background: var(--green);
-  color: #03140c;
-}
-.btn-primary:hover {
-  background: #5cf0b4;
-}
-.btn-ghost {
-  border: 1px solid var(--line-strong);
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.02);
-}
-.btn-ghost:hover {
-  border-color: var(--green-line);
-  background: var(--green-soft);
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  height: 24px;
-  padding: 0 9px;
-  border-radius: 6px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.025);
-  font-size: 12px;
-  color: var(--text-2);
-  white-space: nowrap;
-}
-.tag-green {
-  border-color: var(--green-line);
-  background: var(--green-soft);
-  color: var(--green);
-}
-.mono {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-}
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--green);
-}
-.text-green {
-  color: var(--green);
 }
 
 /* Section heading */
@@ -225,11 +153,6 @@ button {
   max-width: 460px;
   font-size: 15px;
 }
-.sec-num {
-  display: block;
-  margin-bottom: 18px;
-}
-
 /* 작은 제목 + 짧은 선: 섹션 안의 블록 구분 */
 .rule-title {
   display: flex;

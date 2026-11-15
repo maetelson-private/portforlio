@@ -5,13 +5,17 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="container inner">
-    <span class="mono">© {year} {profile.name} · {profile.handle}</span>
+    <span class="copy">© {year} {profile.name} · {profile.handle}</span>
   </div>
 </footer>
 
 <style>
   .footer {
     border-top: 1px solid var(--line);
+  }
+  .copy {
+    font-size: 13px;
+    color: var(--muted);
   }
   .inner {
     display: flex;

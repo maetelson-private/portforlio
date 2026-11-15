@@ -66,6 +66,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       } else {
         els.forEach((el) => el.classList.add('is-in'));
       }
+      // 안전장치: 어떤 이유로든 관찰이 늦어도 콘텐츠가 숨은 채로 남지 않게
+      setTimeout(() => els.forEach((el) => el.classList.add('is-in')), 1500);
     </script>
   </body>
 </html>

@@ -3,7 +3,7 @@ export const profile = {
   handle: 'Maetelson',
   headline: 'Connecting the dots, from strategy to code',
   intro:
-    'I work across business strategy, investment due diligence, data analysis, design, and development. When I plan something, I design it and build it myself to see if it holds up.',
+    "I'm Haneul Son, a Computer Science student at Ewha Womans University. I work across business strategy, investment due diligence, data analysis, design, and development, and when I plan something, I design it and build it myself to see if it holds up.",
   school: 'Ewha Womans University · Computer Science and Engineering · Entrepreneurship (double major) · Venture Investment (micro-degree)',
   email: 'handsson@ewhain.net',
   links: [

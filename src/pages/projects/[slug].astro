@@ -45,8 +45,8 @@ const links = [
         <span aria-hidden="true">/</span>
         <a class="tap" href={url(`/?field=${p.primary}#work`)}>{a.label}</a>
       </nav>
-      <p class="name">{p.title}</p>
-      <h1>{p.summary}</h1>
+      <h1>{p.title}</h1>
+      <p class="lede">{p.summary}</p>
 
       {
         (links.length > 0 || p.links.repoPrivate) && (
@@ -103,7 +103,7 @@ const links = [
         {
           p.stack.length > 0 && (
             <div>
-              <dt>Stack</dt>
+              <dt>Tools &amp; methods</dt>
               <dd class="muted">{p.stack.join(', ')}</dd>
             </div>
           )
@@ -153,20 +153,21 @@ const links = [
   .crumbs a:hover {
     color: var(--green);
   }
-  .name {
-    margin-top: clamp(32px, 5vw, 56px);
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--green);
-  }
   h1 {
-    margin-top: 14px;
-    max-width: 30ch;
-    font-size: clamp(28px, 3.4vw, 44px);
+    margin-top: clamp(28px, 4.5vw, 48px);
+    max-width: 18ch;
+    font-size: clamp(40px, 6vw, 76px);
     font-weight: 600;
-    line-height: 1.25;
+    line-height: 1.08;
     letter-spacing: -0.03em;
     text-wrap: balance;
+  }
+  .lede {
+    margin-top: 20px;
+    max-width: 52ch;
+    font-size: clamp(17px, 1.6vw, 20px);
+    line-height: 1.6;
+    color: var(--text-2);
   }
   .actions {
     display: flex;
@@ -261,18 +262,13 @@ const links = [
 
   /* ── prose: 번호 붙은 섹션, Approach는 단계, Outcome은 행 ── */
   .prose {
-    max-width: 68ch;
-    counter-reset: sec;
+    max-width: 34em;
     font-size: 16px;
     line-height: 1.75;
     color: var(--text-2);
   }
   .prose :global(h2) {
-    counter-increment: sec;
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    margin: 64px 0 22px;
+    margin: 64px 0 20px;
     font-size: 24px;
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -280,13 +276,6 @@ const links = [
   }
   .prose :global(h2:first-child) {
     margin-top: 0;
-  }
-  .prose :global(h2)::before {
-    content: counter(sec, decimal-leading-zero);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--green);
-    font-variant-numeric: tabular-nums;
   }
   .prose :global(p) {
     margin: 0 0 16px;
