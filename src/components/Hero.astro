@@ -1,7 +1,12 @@
 ---
 import Icon from './Icon.astro';
-import { profile } from '../data/site';
 import { url } from '../lib/url';
+
+const proof = [
+  { value: '2', label: '기업 산학협력 프로젝트 대상' },
+  { value: '115', label: '캡스톤 메인 레포 PR' },
+  { value: '18', label: '기획 · 디자인 · 개발 프로젝트' },
+];
 ---
 
 <section class="hero grid-bg" aria-labelledby="hero-title">
@@ -16,7 +21,8 @@ import { url } from '../lib/url';
     </div>
     <div class="right">
       <p>
-        {profile.intro}
+        문제를 근거로 정의하고, 화면을 직접 그리고, 필요하면 코드까지 짜서 MVP를 끝까지 만듭니다. 기획·디자인·개발 어느
+        파트와도 같은 언어로 이야기합니다.
       </p>
       <div class="actions">
         <a class="btn btn-primary" href={url('#works')}>Explore Works <Icon name="arrow" size={16} /></a>
@@ -24,20 +30,31 @@ import { url } from '../lib/url';
       </div>
     </div>
   </div>
+  <div class="container">
+    <dl class="proof">
+      {
+        proof.map((p) => (
+          <div>
+            <dt>{p.label}</dt>
+            <dd>{p.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
 </section>
 
 <style>
   .hero {
     position: relative;
     padding-top: clamp(56px, 9vw, 110px);
-    padding-bottom: clamp(36px, 5vw, 56px);
+    padding-bottom: clamp(24px, 4vw, 40px);
     overflow: hidden;
   }
   .fade {
     position: absolute;
     inset: 0;
-    background: radial-gradient(80% 60% at 70% 0%, rgba(46, 229, 157, 0.09), transparent 60%),
-      linear-gradient(180deg, transparent 55%, var(--bg));
+    background: linear-gradient(180deg, transparent 55%, var(--bg));
     pointer-events: none;
   }
   .inner {
@@ -54,11 +71,10 @@ import { url } from '../lib/url';
   }
   h1 {
     margin-top: 26px;
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(42px, 6vw, 76px);
-    line-height: 1.06;
-    letter-spacing: -0.055em;
+    font-weight: 600;
+    font-size: clamp(40px, 5.8vw, 74px);
+    line-height: 1.16;
+    letter-spacing: -0.035em;
   }
   h1 span {
     display: block;
@@ -69,10 +85,7 @@ import { url } from '../lib/url';
     }
   }
   .l2 {
-    background: linear-gradient(90deg, var(--green) 0%, #9dffd6 55%, var(--green-2) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--green);
   }
   .right {
     max-width: 420px;
@@ -81,12 +94,40 @@ import { url } from '../lib/url';
   .right p {
     color: var(--text-2);
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.75;
   }
   .actions {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 26px;
+  }
+  .proof {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: clamp(48px, 7vw, 80px) 0 0;
+    border-top: 1px solid var(--line);
+  }
+  .proof > div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 4px;
+    padding: 20px 16px 0 0;
+  }
+  .proof > div + div {
+    padding-left: 20px;
+    border-left: 1px solid var(--line);
+  }
+  dt {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+    font-size: clamp(28px, 3.4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
   }
 </style>

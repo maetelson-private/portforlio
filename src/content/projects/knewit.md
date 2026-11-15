@@ -8,6 +8,7 @@ primary: development
 roles: [대표, 기획, 디자인, FE]
 featured: true
 award: ICT/SW 여성창업공모전 우수상 · 모두의창업 2차 진출
+highlight: { value: 'v3.11', label: '스프린트마다 배포한 인터랙티브 프로토타입' }
 stack: [React Native, Expo Router, TypeScript, TanStack Query, Zustand, NativeWind, orval, Biome, GitHub Actions, Sentry, PostHog, Figma]
 links:
   live: https://knewit-app.github.io/proto/

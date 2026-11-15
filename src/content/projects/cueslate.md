@@ -7,6 +7,7 @@ org: 개인 프로젝트
 primary: development
 roles: [기획, FE, BE]
 featured: true
+highlight: { value: 'Live', label: 'cueslate.org에서 운영 중인 풀스택 서비스' }
 stack: [Next.js 16, React 19, Tailwind CSS 4, PDF.js, Cloudflare Workers, Hono, D1, R2, Zod, Turborepo]
 links:
   live: https://cueslate.org

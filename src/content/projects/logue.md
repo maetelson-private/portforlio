@@ -7,6 +7,7 @@ org: 이화여대 캡스톤디자인 · 26-ewha-capstone-logue
 primary: development
 roles: [기획, FE, 리서치 엔지니어링]
 featured: true
+highlight: { value: '115', label: '메인 레포에 올린 PR' }
 stack: [TypeScript, React, Swagger · OpenAPI, Python, GitHub Actions, Codex · Claude 리뷰 스킬]
 links:
   extra:

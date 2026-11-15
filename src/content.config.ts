@@ -23,6 +23,8 @@ const projects = defineCollection({
       .optional(),
     featured: z.boolean().default(false),
     award: z.string().optional(),
+    /** Featured 카드에 크게 보여줄 핵심 수치 */
+    highlight: z.object({ value: z.string(), label: z.string() }).optional(),
     stack: z.array(z.string()).default([]),
     links: z
       .object({

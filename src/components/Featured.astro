@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Icon from './Icon.astro';
-import Wave from './Wave.astro';
 import { url } from '../lib/url';
 
 interface Props {
@@ -30,10 +29,12 @@ const { projects } = Astro.props;
           return (
             <li class="fc reveal" style={`transition-delay:${i * 60}ms`}>
               <a href={url(`/projects/${project.id}/`)} class="link">
-                <div class="visual" aria-hidden="true">
-                  <Wave seed={i + 3} lines={40} />
-                  <span class="idx">{String(i + 1).padStart(2, '0')}.</span>
-                </div>
+                {p.highlight && (
+                  <div class="hl">
+                    <span class="hl-v">{p.highlight.value}</span>
+                    <span class="hl-l">{p.highlight.label}</span>
+                  </div>
+                )}
                 <div class="body">
                   <div class="meta">
                     <span class="mono">{p.period}</span>
@@ -54,7 +55,7 @@ const { projects } = Astro.props;
                   )}
                   <ul class="roles">
                     {p.roles.map((r) => (
-                      <li class="tag tag-green">{r}</li>
+                      <li class="tag">{r}</li>
                     ))}
                   </ul>
                   <span class="more">
@@ -86,48 +87,39 @@ const { projects } = Astro.props;
     height: 100%;
     border-radius: var(--radius-lg);
     border: 1px solid var(--line);
-    background: linear-gradient(180deg, var(--surface), var(--bg-elev));
+    background: var(--surface);
     overflow: hidden;
-    transition: border-color 0.3s, transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+    transition: border-color 0.3s, background 0.3s;
   }
   .link:hover {
     border-color: var(--green-line);
-    transform: translateY(-4px);
-    box-shadow: 0 40px 80px -48px rgba(46, 229, 157, 0.4);
+    background: var(--surface-2);
   }
-  .visual {
-    position: relative;
-    height: 180px;
-    margin: 8px 8px 0;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #070908;
+  .hl {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 28px 28px 24px;
+    border-bottom: 1px solid var(--line);
   }
-  .visual :global(svg) {
-    width: 100%;
-    height: 100%;
-    transition: transform 1.2s var(--ease);
-  }
-  .link:hover .visual :global(svg) {
-    transform: scale(1.06);
-  }
-  .idx {
-    position: absolute;
-    left: 18px;
-    bottom: 10px;
-    font-family: var(--font-display);
-    font-size: 56px;
-    letter-spacing: -0.06em;
+  .hl-v {
+    font-size: clamp(48px, 6vw, 72px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
     line-height: 1;
-    color: rgba(255, 255, 255, 0.85);
-    mix-blend-mode: overlay;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
+  }
+  .hl-l {
+    font-size: 13px;
+    color: var(--muted);
   }
   .body {
     display: flex;
     flex-direction: column;
     gap: 12px;
     flex: 1;
-    padding: 24px 26px 26px;
+    padding: 24px 28px 28px;
   }
   .meta {
     display: flex;
@@ -136,11 +128,10 @@ const { projects } = Astro.props;
     gap: 8px;
   }
   h3 {
-    font-family: var(--font-display);
-    font-size: clamp(24px, 2.6vw, 30px);
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    line-height: 1.15;
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
   }
   .sum {
     color: var(--text-2);
@@ -170,7 +161,6 @@ const { projects } = Astro.props;
     padding-top: 10px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text);
   }
   .link:hover .more {
     color: var(--green);

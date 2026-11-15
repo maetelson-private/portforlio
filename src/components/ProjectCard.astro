@@ -10,78 +10,91 @@ const { project } = Astro.props;
 const p = project.data;
 ---
 
-<li class="pc reveal">
+<li class="row reveal">
   <a href={url(`/projects/${project.id}/`)} class="link">
-    <div class="top">
-      <span class="mono">{p.period}</span>
-      <span class="arrow" aria-hidden="true"><Icon name="arrow-up-right" size={16} /></span>
-    </div>
-    <h3>
-      {p.featured && <span class="star" title="대표 프로젝트">★</span>}
-      {p.title}
-    </h3>
-    <p class="sum">{p.summary}</p>
-    {
-      p.award && (
-        <p class="award">
-          <Icon name="trophy" size={14} />
-          {p.award}
-        </p>
-      )
-    }
-    <div class="foot">
-      <ul class="roles">
-        {p.roles.slice(0, 4).map((r) => (
-          <li class="tag">{r}</li>
-        ))}
-      </ul>
-      {
-        p.links.repoPrivate && (
-          <span class="tag" title="비공개 레포 — 요청 시 코드 공유">
+    <span class="period">{p.period}</span>
+    <div class="main">
+      <h3>
+        {p.title}
+        {p.featured && <span class="star">Featured</span>}
+        {p.links.repoPrivate && (
+          <span class="lock" title="비공개 레포 — 요청 시 코드 공유">
             <Icon name="lock" size={12} />
-            &nbsp;Private
           </span>
+        )}
+      </h3>
+      <p class="sum">{p.summary}</p>
+      <p class="roles">{p.roles.join(' · ')}</p>
+    </div>
+    <div class="aside">
+      {
+        p.award && (
+          <p class="award">
+            <Icon name="trophy" size={14} />
+            <span>{p.award}</span>
+          </p>
         )
       }
     </div>
-    {p.org && <p class="org mono">{p.org}</p>}
+    <span class="arrow" aria-hidden="true"><Icon name="arrow-up-right" size={16} /></span>
   </a>
 </li>
 
 <style>
-  .pc {
-    list-style: none;
+  .row {
+    border-bottom: 1px solid var(--line);
   }
   .link {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    height: 100%;
-    padding: 24px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--line);
-    background: linear-gradient(180deg, var(--surface), var(--bg-elev));
-    transition: border-color 0.3s, transform 0.4s var(--ease), background 0.3s;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 16px;
+    padding: 22px 4px;
+    transition: background 0.25s;
   }
-  .link:hover {
-    border-color: var(--green-line);
-    transform: translateY(-3px);
+  .period {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
   }
-  .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .main {
+    min-width: 0;
+  }
+  .aside {
+    grid-column: 1 / 2;
   }
   .arrow {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 999px;
     border: 1px solid var(--line-strong);
     color: var(--text-2);
-    transition: background 0.3s, color 0.3s, border-color 0.3s;
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  @media (min-width: 860px) {
+    .link {
+      grid-template-columns: 150px minmax(0, 1fr) 280px 32px;
+      gap: 32px;
+      align-items: start;
+      padding: 26px 8px;
+    }
+    .period {
+      grid-column: auto;
+      padding-top: 4px;
+    }
+    .aside,
+    .arrow {
+      grid-column: auto;
+      grid-row: auto;
+    }
+  }
+  .link:hover {
+    background: rgba(255, 255, 255, 0.02);
   }
   .link:hover .arrow {
     background: var(--green);
@@ -89,47 +102,50 @@ const p = project.data;
     color: #03140c;
   }
   h3 {
-    font-size: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 19px;
     font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.3;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+  }
+  .link:hover h3 {
+    color: var(--green);
   }
   .star {
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--green-line);
+    font-size: 11px;
+    font-weight: 600;
     color: var(--green);
-    margin-right: 6px;
-    font-size: 15px;
-    vertical-align: 2px;
+  }
+  .lock {
+    color: var(--muted);
   }
   .sum {
+    margin-top: 6px;
     color: var(--text-2);
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .roles {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
   }
   .award {
     display: flex;
     gap: 8px;
     align-items: flex-start;
     font-size: 13px;
+    line-height: 1.55;
     color: var(--green);
-    line-height: 1.5;
   }
   .award :global(svg) {
     flex: none;
-    margin-top: 2px;
-  }
-  .foot {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: auto;
-    padding-top: 6px;
-  }
-  .roles {
-    display: contents;
-  }
-  .org {
-    padding-top: 12px;
-    border-top: 1px solid var(--line);
-    font-size: 11px;
+    margin-top: 3px;
   }
 </style>

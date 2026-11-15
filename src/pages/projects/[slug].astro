@@ -2,7 +2,6 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
-import Wave from '../../components/Wave.astro';
 import { disciplines } from '../../data/site';
 import { getProjects, type Project } from '../../lib/projects';
 import { url } from '../../lib/url';
@@ -95,10 +94,6 @@ const links = [
       </div>
     </header>
 
-    <div class="banner container" aria-hidden="true">
-      <div class="wave"><Wave seed={p.sort % 7} lines={64} /></div>
-    </div>
-
     <div class="container layout">
       <div class="prose">
         <Content />
@@ -135,8 +130,7 @@ const links = [
   .glow {
     position: absolute;
     inset: 0;
-    background: radial-gradient(60% 70% at 80% 0%, rgba(46, 229, 157, 0.1), transparent 60%),
-      linear-gradient(180deg, transparent 60%, var(--bg));
+    background: linear-gradient(180deg, transparent 60%, var(--bg));
     pointer-events: none;
   }
   .head .container {
@@ -153,10 +147,10 @@ const links = [
   h1 {
     margin-top: 14px;
     font-family: var(--font-display);
-    font-size: clamp(40px, 7vw, 84px);
-    font-weight: 500;
-    letter-spacing: -0.05em;
-    line-height: 1.02;
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
   }
   .lede {
     margin-top: 20px;
@@ -211,17 +205,6 @@ const links = [
   .private {
     cursor: default;
     color: var(--text-2);
-  }
-  .banner .wave {
-    height: clamp(160px, 22vw, 260px);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--line);
-    background: #070908;
-  }
-  .banner .wave :global(svg) {
-    width: 100%;
-    height: 100%;
   }
   .layout {
     display: grid;
@@ -308,7 +291,7 @@ const links = [
     border: 1px solid var(--muted);
   }
   .prose :global(code) {
-    font-family: var(--font-mono);
+    font-family: var(--font-code);
     font-size: 0.86em;
     padding: 2px 6px;
     border-radius: 6px;
@@ -343,7 +326,7 @@ const links = [
     font-family: var(--font-display);
     font-size: clamp(28px, 4.5vw, 52px);
     font-weight: 500;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.03em;
     transition: color 0.3s, gap 0.3s var(--ease);
   }
   .next a:hover .nt {

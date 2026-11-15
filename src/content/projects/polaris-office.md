@@ -8,6 +8,7 @@ primary: planning
 roles: [PM, 서비스 기획, 디자인, FE]
 featured: true
 award: 폴라리스오피스 산학협력 프로젝트 대상(1위)
+highlight: { value: '81%↓', label: '문서 작업 중 이탈률 · 사용자 테스트 N=20' }
 stack: [React, TypeScript, Vite, Polaris UI, GitHub Pages]
 links:
   live: https://maetelson.github.io/polaris/
