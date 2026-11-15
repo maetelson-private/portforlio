@@ -1,14 +1,14 @@
 ---
 title: Polaris Office × DECK
-summary: Z세대의 문서 작업 전 여정에서 1순위가 되기 위한 Lock-in 전략과 인터랙티브 프로토타입
+summary: Lock-in strategy and interactive prototype to make Polaris Office the first choice across Gen Z's whole document workflow
 period: 2026.05 ~ 2026.06
 sort: 202605
-org: 이화여대 경영전략학회 DECK × 폴라리스오피스 산학협력 · 5인 팀
+org: DECK (Ewha business strategy society) × Polaris Office industry-academia project · team of 5
 primary: strategy
 also: [data, design, development]
-roles: [PM, 서비스 기획, 디자인, FE]
+roles: [PM, Service planning, Design, FE]
 featured: true
-award: 폴라리스오피스 산학협력 프로젝트 대상(1위)
+award: Grand Prize (1st place), Polaris Office industry-academia project
 stack: [React, TypeScript, Vite, Polaris UI, GitHub Pages]
 links:
   live: https://maetelson.github.io/polaris/
@@ -18,22 +18,22 @@ links:
 
 ## Problem
 
-폴라리스오피스는 문서 작업 전 과정을 지원하지만, 실제 사용은 파일 열람·편집(47.3%)에 집중돼 있었습니다. 대학생·취준생 비시즌(7~8월, 1~2월)마다 DAU가 줄었고, 팀은 원인을 "일상 루틴과 작업 자산이 쌓이지 않는 구조"로 정의했습니다.
+Polaris Office supports the whole document workflow, but actual use was concentrated in opening and editing files (47.3%). DAU dropped every off-season for college students and job seekers (July to August, January to February), and the team defined the cause as "a structure where daily routines and work assets don't build up."
 
 ## Approach
 
-- 설문과 IDI로 문서 작업 7단계별 페인포인트 점수를 측정했습니다.
-- "생산성 도구 성숙도"와 "병목 강도"를 기준으로 타깃을 4개 클러스터로 나눴습니다 (리텐션 / 활성 사용 / 구독 전환 / 업셀링).
-- 클러스터 전략 5개(킵 투 폴라리스, AI 리서치 보드, 커리어 패스, 파이널 룸, 리뷰 룸)와 범용 전략 2개(서베이 매트릭스, 그래프 빌더)를 설계했습니다.
-- 7개 전략을 직접 조작할 수 있는 웹 프로토타입으로 구현했습니다. Polaris UI 디자인 시스템 토큰을 지키도록 브랜드 감사·링크 검사 스크립트를 함께 만들었습니다.
-- AS-IS / TO-BE 사용자 테스트로 화면 흐름을 다시 설계했습니다.
+- Measured pain point scores for each of 7 document workflow stages through surveys and IDIs.
+- Split the target into 4 clusters by "productivity tool maturity" and "bottleneck intensity" (retention / active use / subscription conversion / upselling).
+- Designed 5 cluster strategies ("Keep to Polaris," "AI Research Board," "Career Path," "Final Room," "Review Room") and 2 general strategies ("Survey Matrix," "Graph Builder").
+- Built a web prototype where all 7 strategies can be tried hands-on. Also wrote brand audit and link check scripts to keep it in line with the Polaris UI design system tokens.
+- Redesigned the screen flows through AS-IS / TO-BE user tests.
 
 ## Outcome
 
-- 폴라리스오피스 산학협력 프로젝트 대상(1위)
-- 사용자 테스트(N=20) 결과
-  - 리서치 중 화면 전환율 67% 감소
-  - 문서 작업 중 이탈률 81% 감소
-  - 제출 조건 누락률 95% 감소
-  - 그래프 제작 후 재사용까지의 시간 68% 감소
-  - 작업 탐색 시간 30% 감소
+- Grand Prize (1st place), Polaris Office industry-academia project
+- User test (N=20) results
+  - 67% fewer screen switches during research
+  - 81% lower drop-off during document work
+  - 95% fewer missed submission requirements
+  - 68% less time from making a graph to reusing it
+  - 30% less time spent finding tasks

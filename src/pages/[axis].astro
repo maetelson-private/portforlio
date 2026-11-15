@@ -10,7 +10,7 @@ const target = url(`/?field=${Astro.params.axis}#work`);
 ---
 
 <!doctype html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
@@ -19,6 +19,6 @@ const target = url(`/?field=${Astro.params.axis}#work`);
     <title>Redirecting…</title>
   </head>
   <body style="background:#0a0b0a;color:#edf0ee;font-family:sans-serif">
-    <a href={target} style="color:#2ee59d">Work 목록으로 이동</a>
+    <a href={target} style="color:#2ee59d">Go to Work</a>
   </body>
 </html>

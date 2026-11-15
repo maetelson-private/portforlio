@@ -7,37 +7,27 @@ import { getProjects, type Project } from '../../lib/projects';
 import { url } from '../../lib/url';
 
 export async function getStaticPaths() {
-  const projects = await getProjects();
-  return projects.map((project, i) => ({
-    params: { slug: project.id },
-    props: { project, next: projects[(i + 1) % projects.length] },
-  }));
+  const all = await getProjects();
+  // 다음 프로젝트는 Work 목록에 보이는 것들 안에서 돈다
+  const listed = all.filter((p) => !p.data.archive);
+  return all.map((project) => {
+    const i = listed.findIndex((p) => p.id === project.id);
+    const next = listed[(i + 1) % listed.length];
+    return { params: { slug: project.id }, props: { project, next, total: listed.length } };
+  });
 }
 
 interface Props {
   project: Project;
   next: Project;
+  total: number;
 }
-const { project, next } = Astro.props;
+const { project, next, total } = Astro.props;
 const p = project.data;
 const a = axes[p.primary];
-
-// 본문 마크다운에서 '문제'와 '결과' 섹션을 뽑아 상단 3단 요약(Overview / Situation / Result)을 만든다
-const plain = (t: string) => t.replace(/\*\*/g, '').replace(/`/g, '').trim();
-function section(name: string): string {
-  const parts = (project.body ?? '').split(/^## /m);
-  const hit = parts.find((s) => s.startsWith(name));
-  return hit ? hit.slice(hit.indexOf('\n') + 1).trim() : '';
-}
-const situation = plain(section('Problem').split(/\n\s*\n/)[0] ?? '');
-const resultItems = section('Outcome')
-  .split('\n')
-  .filter((l) => l.startsWith('- '))
-  .slice(0, 3)
-  .map((l) => plain(l.slice(2)));
-const category = [p.primary, ...p.also].map((k) => axes[k].label).join(', ');
 const { Content } = await render(project);
 
+const fields = [p.primary, ...p.also];
 const links = [
   p.links.live && { label: 'Live', href: p.links.live },
   p.links.repo && { label: 'GitHub', href: p.links.repo },
@@ -47,169 +37,185 @@ const links = [
 ].filter(Boolean) as { label: string; href: string }[];
 ---
 
-<Base title={`${p.title} — 손하늘 포트폴리오`} description={p.summary}>
-  <article>
-    <header class="head">
-      <div class="glow" aria-hidden="true"></div>
-      <div class="container">
-        <a class="back" href={url(`/?field=${p.primary}#work`)}>← Work</a>
-        <h1>{p.title}</h1>
-        <p class="lede">{p.summary}</p>
+<Base title={`${p.title} | Haneul Son`} description={p.summary}>
+  <article class="cs">
+    <header class="container head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href={url('/#work')}>Work</a>
+        <span aria-hidden="true">/</span>
+        <a href={url(`/?field=${p.primary}#work`)}>{a.label}</a>
+      </nav>
+      <p class="name">{p.title}</p>
+      <h1>{p.summary}</h1>
 
-        <dl class="meta">
-          {
-            p.org && (
-              <div>
-                <dt>client</dt>
-                <dd>{p.org}</dd>
-              </div>
-            )
-          }
-          <div>
-            <dt>date</dt>
-            <dd>{p.period}</dd>
-          </div>
-          <div>
-            <dt>role</dt>
-            <dd>{p.roles.join(' · ')}</dd>
-          </div>
-          <div>
-            <dt>category</dt>
-            <dd>{category}</dd>
-          </div>
-        </dl>
-
-        {
-          (links.length > 0 || p.links.repoPrivate) && (
-            <div class="links">
-              {links.map((l) => (
-                <a class="btn btn-ghost" href={l.href} target="_blank" rel="noopener noreferrer">
+      {
+        (links.length > 0 || p.links.repoPrivate) && (
+          <ul class="actions">
+            {links.map((l) => (
+              <li>
+                <a href={l.href} target="_blank" rel="noopener noreferrer">
                   {l.label} <Icon name="arrow-up-right" size={14} />
                 </a>
-              ))}
-              {p.links.repoPrivate && (
-                <span class="btn btn-ghost private" title="비공개 레포 — 요청 시 코드 공유">
-                  <Icon name="lock" size={14} /> Private repo, available on request
-                </span>
-              )}
+              </li>
+            ))}
+            {p.links.repoPrivate && (
+              <li class="private">
+                <Icon name="lock" size={13} /> Private repo, available on request
+              </li>
+            )}
+          </ul>
+        )
+      }
+    </header>
+
+    <div class="container body">
+      <dl class="facts">
+        {
+          p.org && (
+            <div>
+              <dt>Client</dt>
+              <dd>{p.org}</dd>
             </div>
           )
         }
-      </div>
-    </header>
-
-    {
-      (situation || resultItems.length > 0 || p.award) && (
-        <section class="container ovr" aria-label="요약">
-          <div>
-            <h2 class="rule-title">Overview</h2>
-            <p>{p.summary}</p>
-          </div>
-          {situation && (
+        <div>
+          <dt>Period</dt>
+          <dd>{p.period}</dd>
+        </div>
+        <div>
+          <dt>Role</dt>
+          <dd>{p.roles.join(', ')}</dd>
+        </div>
+        <div>
+          <dt>Fields</dt>
+          <dd class="fields">
+            {fields.map((k) => <a href={url(`/?field=${k}#work`)}>{axes[k].label}</a>)}
+          </dd>
+        </div>
+        {
+          p.award && (
             <div>
-              <h2 class="rule-title">Situation</h2>
-              <p>{situation}</p>
+              <dt>Recognition</dt>
+              <dd>{p.award.split(' · ').map((x) => <span class="line">{x}</span>)}</dd>
             </div>
-          )}
-          {(resultItems.length > 0 || p.award) && (
+          )
+        }
+        {
+          p.stack.length > 0 && (
             <div>
-              <h2 class="rule-title">Result</h2>
-              {p.award && (
-                <p class="award">
-                  <Icon name="trophy" size={14} /> {p.award}
-                </p>
-              )}
-              {resultItems.length > 0 && (
-                <ul>
-                  {resultItems.map((r) => (
-                    <li>{r}</li>
-                  ))}
-                </ul>
-              )}
+              <dt>Stack</dt>
+              <dd class="muted">{p.stack.join(', ')}</dd>
             </div>
-          )}
-        </section>
-      )
-    }
+          )
+        }
+      </dl>
 
-    <div class="container layout">
       <div class="prose">
         <Content />
       </div>
-      {
-        p.stack.length > 0 && (
-          <aside class="side">
-            <h2 class="rule-title">Stack & Tools</h2>
-            <ul>
-              {p.stack.map((s) => (
-                <li class="tag">{s}</li>
-              ))}
-            </ul>
-          </aside>
-        )
-      }
     </div>
 
     <nav class="container next" aria-label="Next project">
-      <a href={url(`/projects/${next.id}/`)}>
-        <span class="nl">Next project</span>
-        <span class="nt">{next.data.title} <Icon name="arrow" size={22} /></span>
+      <a class="next-link" href={url(`/projects/${next.id}/`)}>
+        <span class="label">Next project</span>
+        <span class="nt">{next.data.title} <Icon name="arrow" size={24} /></span>
+        <span class="ns">{next.data.summary}</span>
       </a>
+      <a class="all" href={url('/#work')}>All work <span>({total})</span></a>
     </nav>
   </article>
 </Base>
 
 <style>
   .head {
-    position: relative;
-    padding-block: clamp(48px, 8vw, 96px) 40px;
-    overflow: hidden;
+    padding-block: clamp(48px, 8vw, 104px) clamp(40px, 6vw, 72px);
   }
-  .glow {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 60%, var(--bg));
-    pointer-events: none;
+  .crumbs {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--muted);
   }
-  .head .container {
-    position: relative;
-  }
-  .back {
-    display: inline-block;
-    margin-bottom: 36px;
+  .crumbs a {
     color: var(--text-2);
+    transition: color 0.2s;
   }
-  .back:hover {
+  .crumbs a:hover {
+    color: var(--green);
+  }
+  .name {
+    margin-top: clamp(32px, 5vw, 56px);
+    font-size: 15px;
+    font-weight: 600;
     color: var(--green);
   }
   h1 {
     margin-top: 14px;
-    font-family: var(--font-display);
-    font-size: clamp(38px, 6vw, 72px);
+    max-width: 30ch;
+    font-size: clamp(28px, 3.4vw, 44px);
     font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.15;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
   }
-  .lede {
-    margin-top: 20px;
-    max-width: 680px;
-    font-size: clamp(17px, 1.8vw, 20px);
-    color: var(--text-2);
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    margin-top: 32px;
   }
-  .meta {
+  .actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+    padding-bottom: 3px;
+    transition: color 0.2s;
+  }
+  .actions a:hover {
+    color: var(--green);
+  }
+  .actions a :global(svg) {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .actions a:hover :global(svg) {
+    transform: translate(2px, -2px);
+  }
+  .private {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* ── body: facts column + prose ── */
+  .body {
     display: grid;
-    gap: 18px 32px;
-    margin: 40px 0 0;
-    padding-top: 28px;
-    border-top: 1px solid var(--line);
+    gap: 48px;
+    padding-block: clamp(32px, 5vw, 56px) clamp(64px, 9vw, 120px);
+    border-top: 1px solid var(--line-strong);
   }
-  @media (min-width: 760px) {
-    .meta {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  @media (min-width: 960px) {
+    .body {
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 80px;
+    }
+    .facts {
+      position: sticky;
+      top: 96px;
+      align-self: start;
     }
   }
+  .facts {
+    display: grid;
+    gap: 22px;
+    margin: 0;
+  }
   dt {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--muted);
     margin-bottom: 6px;
@@ -217,104 +223,60 @@ const links = [
   dd {
     margin: 0;
     font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
   }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .award {
-    display: flex;
-    gap: 8px;
-    color: var(--green);
-  }
-  .award :global(svg) {
-    flex: none;
-    margin-top: 4px;
-  }
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 32px;
-  }
-  .private {
-    cursor: default;
+  .muted {
     color: var(--text-2);
   }
-  .ovr {
-    display: grid;
-    gap: 32px;
-    padding-block: clamp(40px, 6vw, 64px) 0;
+  .line {
+    display: block;
   }
-  @media (min-width: 900px) {
-    .ovr {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 48px;
-    }
+  .fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
   }
-  .ovr p,
-  .ovr li {
-    font-size: 15px;
+  .fields a {
+    color: var(--text-2);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 4px;
+    transition: color 0.2s, text-decoration-color 0.2s;
+  }
+  .fields a:hover {
+    color: var(--green);
+    text-decoration-color: var(--green);
+  }
+
+  /* ── prose: 번호 붙은 섹션, Approach는 단계, Outcome은 행 ── */
+  .prose {
+    max-width: 68ch;
+    counter-reset: sec;
+    font-size: 16px;
     line-height: 1.75;
     color: var(--text-2);
   }
-  .ovr ul {
-    display: grid;
-    gap: 8px;
-  }
-  .ovr .award {
-    margin-bottom: 10px;
-  }
-  .layout {
-    display: grid;
-    gap: 40px;
-    padding-block: clamp(48px, 7vw, 88px);
-  }
-  @media (min-width: 960px) {
-    .layout {
-      grid-template-columns: minmax(0, 1fr) 280px;
-      gap: 72px;
-    }
-  }
-  .side {
-    align-self: start;
-    position: sticky;
-    top: 96px;
-    padding: 24px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-  }
-  .side ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 14px;
-  }
-  .prose {
-    max-width: 720px;
-    font-size: 16px;
-    color: var(--text-2);
-  }
   .prose :global(h2) {
-    margin: 52px 0 18px;
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 500;
-    letter-spacing: -0.03em;
+    counter-increment: sec;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 64px 0 22px;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
     color: var(--text);
   }
   .prose :global(h2:first-child) {
     margin-top: 0;
   }
   .prose :global(h2)::before {
-    content: '';
-    display: block;
-    width: 28px;
-    height: 2px;
-    margin-bottom: 16px;
-    background: var(--green);
+    content: counter(sec, decimal-leading-zero);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
   }
   .prose :global(p) {
     margin: 0 0 16px;
@@ -327,29 +289,77 @@ const links = [
     display: grid;
     gap: 10px;
     margin: 0 0 16px;
-  }
-  .prose :global(ul ul) {
-    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
   }
   .prose :global(li) {
     position: relative;
-    padding-left: 20px;
+    padding-left: 18px;
   }
   .prose :global(li)::before {
     content: '';
     position: absolute;
-    left: 2px;
-    top: 0.72em;
+    left: 0;
+    top: 0.75em;
     width: 6px;
-    height: 6px;
-    border-radius: 2px;
+    height: 1px;
+    background: var(--muted);
+  }
+  .prose :global(ul ul) {
+    margin: 10px 0 0;
+  }
+
+  /* Approach: 번호 단계 */
+  .prose :global(h2[id^='approach'] + ul) {
+    counter-reset: step;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .prose :global(h2[id^='approach'] + ul > li) {
+    counter-increment: step;
+    padding: 18px 0 18px 44px;
+    border-bottom: 1px solid var(--line);
+  }
+  .prose :global(h2[id^='approach'] + ul > li)::before {
+    content: counter(step);
+    top: 18px;
+    width: auto;
+    height: auto;
+    background: none;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.75;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Outcome: 결과 하나에 한 행 */
+  .prose :global(h2[id^='outcome'] + ul) {
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .prose :global(h2[id^='outcome'] + ul > li) {
+    padding: 16px 0 16px 22px;
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+  }
+  .prose :global(h2[id^='outcome'] + ul > li)::before {
+    top: calc(16px + 0.62em);
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
     background: var(--green);
-    opacity: 0.8;
   }
-  .prose :global(ul ul li)::before {
-    background: transparent;
-    border: 1px solid var(--muted);
+  .prose :global(h2[id^='outcome'] + ul ul li) {
+    color: var(--text-2);
   }
+  .prose :global(h2[id^='outcome'] + ul ul li)::before {
+    width: 6px;
+    height: 1px;
+    border-radius: 0;
+    background: var(--muted);
+  }
+
   .prose :global(code) {
     font-family: var(--font-code);
     font-size: 0.86em;
@@ -360,37 +370,66 @@ const links = [
   }
   .prose :global(blockquote) {
     margin: 28px 0 0;
-    padding: 16px 20px;
-    border-left: 2px solid var(--green);
-    border-radius: 0 10px 10px 0;
-    background: var(--green-soft);
+    padding: 4px 0 4px 18px;
+    border-left: 1px solid var(--green);
   }
   .prose :global(blockquote p) {
     margin: 0;
     color: var(--text);
   }
+
+  /* ── next ── */
   .next {
-    padding-bottom: clamp(64px, 9vw, 120px);
-  }
-  .next a {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-top: 32px;
+    display: grid;
+    gap: 24px;
+    padding-block: 40px clamp(72px, 10vw, 128px);
     border-top: 1px solid var(--line);
+  }
+  @media (min-width: 900px) {
+    .next {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+  .next-link {
+    display: grid;
+    gap: 10px;
+  }
+  .label {
+    font-size: 13px;
+    color: var(--muted);
   }
   .nt {
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    font-family: var(--font-display);
-    font-size: clamp(28px, 4.5vw, 52px);
-    font-weight: 500;
+    font-size: clamp(30px, 4.4vw, 52px);
+    font-weight: 600;
     letter-spacing: -0.03em;
-    transition: color 0.3s, gap 0.3s var(--ease);
+    line-height: 1.15;
+    transition: color 0.3s, gap 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .next a:hover .nt {
+  .ns {
+    max-width: 56ch;
+    font-size: 15px;
+    color: var(--text-2);
+  }
+  .next-link:hover .nt {
     color: var(--green);
     gap: 20px;
+  }
+  .all {
+    font-size: 15px;
+    color: var(--text-2);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 5px;
+    transition: color 0.2s;
+  }
+  .all span {
+    color: var(--muted);
+  }
+  .all:hover {
+    color: var(--green);
   }
 </style>

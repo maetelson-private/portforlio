@@ -9,14 +9,14 @@ interface Props {
   description?: string;
 }
 const {
-  title = '손하늘 · Maetelson — 기획 · 디자인 · 개발',
-  description = '연결하고, 이해하는 올라운더 손하늘의 포트폴리오. 서비스 기획부터 UX/UI 디자인, 풀스택 개발까지.',
+  title = 'Haneul Son (Maetelson) | Strategy, Investment, Data, Design, Development',
+  description = 'Portfolio of Haneul Son: business strategy, investment due diligence, data analysis, design, and development.',
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="ko" class="no-js">
+<html lang="en" class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,7 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale" content="en_US" />
 
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link
@@ -41,7 +41,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
-    <a class="skip" href="#main">본문으로 건너뛰기</a>
+    <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main">
       <slot />

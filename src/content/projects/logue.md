@@ -1,27 +1,27 @@
 ---
 title: LOGUE
-summary: 데이터 소스를 연결해 대화형으로 분석하는 AI 서비스 (이화여대 2026 캡스톤)
+summary: An AI service that connects data sources and analyzes them through conversation (Ewha Womans University 2026 capstone)
 period: 2026.03 ~ 2026.06
 sort: 202603.5
-org: 이화여대 캡스톤디자인 · 26-ewha-capstone-logue
+org: Ewha Womans University Capstone Design · 26-ewha-capstone-logue
 primary: development
 also: [data, strategy]
-roles: [기획, FE, API 설계]
-stack: [TypeScript, React, Swagger · OpenAPI, GitHub Actions, Codex · Claude 리뷰 스킬]
+roles: [Planning, FE, API design]
+stack: [TypeScript, React, Swagger · OpenAPI, GitHub Actions, Codex · Claude review skills]
 ---
 
 ## Role
 
-캡스톤 팀의 GitHub organization과 FE·BE·AI·문서 레포를 직접 만들고, 프로젝트 기간 동안 메인 레포에 PR 115건을 올렸습니다.
+Set up the capstone team's GitHub organization and its FE, BE, AI, and docs repos, and opened 115 PRs to the main repo over the project.
 
 ## Approach
 
-- **FE 아키텍처 리팩터링**: feature 계층 이동, 공통 컴포넌트 export 경계, dataSource API 경계, 분석 채팅 훅·렌더링 경계를 나눠 정리했습니다.
-- **API 계약 하드닝**: 분석 AI API 계약과 Swagger 연동을 보강하고, 데이터 소스 삭제 API 계약을 맞췄습니다.
-- **인증 흐름 정리**: 인증 프로바이더 흐름을 분리하고 auth lifecycle 정책을 한곳에 모았습니다. 로그인 세션 복원 401 오류도 고쳤습니다.
-- **리팩토링 백로그 운영**: 스캔으로 백로그를 만들고 PR 단위로 정리했습니다. 코드 리뷰·리팩터링용 AI 스킬 2종을 팀에 추가했습니다.
-- **AI 분석 데모 MVP**: 별도 레포에서 데모를 먼저 만들어 GitHub Pages로 배포해 방향을 검증했습니다.
+- **FE architecture refactoring**: Moved code into feature layers and drew clear boundaries for shared component exports, the dataSource API, and the analysis chat hooks and rendering.
+- **API contract hardening**: Strengthened the analysis AI API contract and Swagger integration, and aligned the data source deletion API contract.
+- **Auth flow cleanup**: Separated the auth provider flows and consolidated the auth lifecycle policy in one place. Also fixed a 401 error on login session restore.
+- **Refactoring backlog**: Built a backlog from code scans and worked through it PR by PR. Added 2 AI skills for code review and refactoring to the team.
+- **AI analysis demo MVP**: Built a demo first in a separate repo and deployed it to GitHub Pages to validate the direction.
 
 ## Related
 
-LOGUE의 타깃 사용자를 정의하려고, 공개 커뮤니티 데이터에서 페르소나 근거를 뽑는 리서치 파이프라인을 따로 만들었습니다. 자세한 내용은 Persona Pipeline 프로젝트에 정리했습니다.
+To define LOGUE's target users, I built a separate research pipeline that extracts persona evidence from public community data. Details are in the Persona Pipeline project.

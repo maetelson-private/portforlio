@@ -1,12 +1,12 @@
 ---
 title: MUSAI
-summary: 악기 대여 및 시연 중개 서비스
+summary: A brokerage service for renting and trying out musical instruments
 period: 2024 ~ 2025
 sort: 202412
-org: 창업 프로젝트
+org: Startup project
 primary: strategy
 also: [investment, design]
-roles: [PM / PO, 콘텐츠 디자인, MOU · IR, MVP]
+roles: [PM / PO, Content design, MOU · IR, MVP]
 stack: [Figma, No-code, DB Design]
 links:
   live: http://www.musai.pro/
@@ -15,16 +15,16 @@ links:
 
 ## Problem
 
-고물가 속에서 렌탈 시장과 문화 여가 지출이 함께 커지고 있었지만, 악기를 써보고 빌리는 과정은 여전히 비싸고 번거로웠습니다.
+With high prices, both the rental market and spending on cultural leisure were growing, but trying out and renting an instrument was still expensive and inconvenient.
 
 ## Approach
 
-- 악기 대여·시연을 중개하는 서비스를 설계했습니다.
-- 악기점 3곳, 홍대·연대 밴드 동아리 3곳과 계약하고, 현대해상과 손해배상 보험을 마련했습니다.
-- Figma로 와이어프레임·IA·플로우차트·카드뉴스를 디자인하고, DB를 설계한 뒤 노코드 툴로 랜딩 페이지를 만들었습니다.
+- Designed a service that brokers instrument rentals and trials.
+- Signed contracts with 3 instrument shops and 3 band clubs at Hongik and Yonsei universities, and set up liability insurance with Hyundai Marine & Fire Insurance.
+- Designed wireframes, IA, flowcharts, and card news in Figma, designed the DB, and built the landing page with a no-code tool.
 
-## Outcome (1개월 대여 기준)
+## Outcome (based on a one-month rental)
 
-- 가격 평균 92% 절약
-- 탐색·대여 시간 평균 96% 절약
-- 실사용자 재사용 의사 100%
+- 92% lower price on average
+- 96% less time spent searching and renting on average
+- 100% of actual users said they would use it again

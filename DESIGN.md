@@ -8,7 +8,7 @@
 - 서체는 Pretendard 하나. 코드(`apps/fe` 등)만 고정폭.
 - 카드, 그림자, 아이콘 타일, 격자 배경, 그라데이션 글자, 제목 위 라벨, 큰 숫자 강조는 쓰지 않는다.
 - 구획은 1px 선으로 나눈다.
-- UI 라벨은 영어(Work, About, Contact, Strategy…, Overview/Situation/Result), 본문은 한국어.
+- 사이트 전체 영어. 문구는 짧고 평이하게, 대시(—, –)와 과장 표현 없이.
 
 ## Tokens (`src/styles/global.css`)
 
@@ -27,7 +27,7 @@
 
 - `/` 홈: 제목 + 소개 한 줄 → 3D 리본 → **Work 목록 하나**(필터 6개: All + 5개 분야, 개수 표시) → Contact.
 - 분야는 별도 페이지가 아니라 필터. `?field=strategy` 등 주소로 공유된다. 예전 `/strategy/` 주소는 해당 필터로 리다이렉트.
-- `/projects/[slug]/`: client·date·role·category 표 → Overview / Situation / Result → 본문(Problem, Approach, Outcome) + Stack.
+- `/projects/[slug]/`: Work / 분야 경로 → 프로젝트 이름(초록 라벨) → 요약 한 문장(큰 제목) → Live·GitHub·Notion 링크 → 왼쪽 고정 정보(Client, Period, Role, Fields, Recognition, Stack) + 오른쪽 본문. 본문 섹션은 01·02·03 번호, Approach는 번호 단계, Outcome은 한 줄씩 행. 끝에 다음 프로젝트(요약 포함)와 All work (N). 레퍼런스: Linear 고객 사례, Bain 사례, Pentagram 프로젝트 페이지.
 - `/about/`: 소개, Experience, Toolkit, Other activities.
 
 ## Motion

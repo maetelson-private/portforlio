@@ -1,13 +1,13 @@
 ---
-title: 롯데마트 3040 파일럿 매장
-summary: 3040 유자녀 여성을 위한 식생활 솔루션 기반 파일럿 매장 기획과 마케팅 전략
+title: Lotte Mart 3040 Pilot Store
+summary: Pilot store concept and marketing strategy built around meal solutions for women in their 30s and 40s with children
 period: 2026.04 ~ 2026.05
 sort: 202604
-org: 이화여대 경영전략학회 DECK × 롯데마트 산학협력 · 5인 팀
+org: DECK (Ewha business strategy society) × Lotte Mart industry-academia project · team of 5
 primary: strategy
 also: [data, design]
-roles: [PM, 서비스 기획, 디자인]
-award: 롯데마트 산학협력 프로젝트 대상(1위)
+roles: [PM, Service planning, Design]
+award: Grand Prize (1st place), Lotte Mart industry-academia project
 stack: [Google Forms, IDI, Case Study, PowerPoint]
 links:
   notion: https://u--x.notion.site/4000fb8090ab808fb7c6fae6ba61a91d
@@ -15,16 +15,16 @@ links:
 
 ## Problem
 
-대형마트는 유통 채널 중 유일하게 역성장 중이고, 롯데마트 고객층은 5060 중심으로 고령화되고 있었습니다. 고객 정보와 매장 자산이 서로 연결되지 않아 "오늘 뭐 먹지"라는 고민을 풀어 주지 못한다고 진단했습니다.
+Hypermarkets were the only retail channel still shrinking, and Lotte Mart's customer base was aging, centered on people in their 50s and 60s. We found that customer data and store assets weren't connected, so the stores couldn't answer the everyday question "what should we eat today?"
 
 ## Approach
 
-- 설문 N=200, IDI N=16으로 핵심 타깃을 3040 유자녀 여성으로 다시 정의하고, 워킹맘·전업주부 두 페르소나로 나눴습니다.
-- 컨셉을 "고민은 지우고, 즐거움만 드세요"로 정하고, 장보기 전·중·후 여정에 맞춘 11개 파일럿 전략을 매장 동선 맵 위에 배치했습니다.
-- 브랜드 필름(6씬 스토리보드)과 숏폼 시리즈 4종으로 통합 커뮤니케이션을 설계했습니다.
-- 투자 규모·실행 난이도 기준 3단계 로드맵을 세우고 KPI를 공통·운영·성과 3단계로 정의했습니다.
+- Redefined the core target as women in their 30s and 40s with children based on a survey (N=200) and IDIs (N=16), and split them into two personas: working moms and stay-at-home moms.
+- Set the concept as "Drop the worry, keep the fun," and placed 11 pilot strategies covering the before, during, and after of a shopping trip on a store traffic map.
+- Designed integrated communication with a brand film (6-scene storyboard) and a 4-part short-form series.
+- Built a 3-stage roadmap based on investment size and execution difficulty, and defined KPIs at three levels: common, operational, and performance.
 
 ## Outcome
 
-- 롯데마트 산학협력 프로젝트 대상(1위)
-- "매일 먹을 메뉴 결정"이 어렵다는 응답 69.4%를 근거로 전략 우선순위를 정했습니다.
+- Grand Prize (1st place), Lotte Mart industry-academia project
+- Set strategy priorities based on the 69.4% of respondents who said "deciding what to eat every day" was hard.

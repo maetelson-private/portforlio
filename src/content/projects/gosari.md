@@ -1,24 +1,24 @@
 ---
-title: 고사리
-summary: 노인 특화 공간 중개 서비스 BM 기획
+title: Gosari
+summary: Business model for a space brokerage service built for older adults
 period: 2024.07 ~ 2024.08
 sort: 202407
-org: 현대차 정몽구 재단 FutuRES College 3기
+org: Hyundai Motor Chung Mong-Koo Foundation FutuRES College, cohort 3
 primary: strategy
 also: [investment]
-roles: [기획, BM 설계, IR]
+roles: [Planning, BM design, IR]
 links:
   notion: https://u--x.notion.site/1ef0fb8090ab80f9b23ce1d2d08c51be
   extra:
-    - label: 활동 후기 영상
+    - label: Program recap video
       href: https://youtu.be/4fRS4qHU47s
 ---
 
 ## Problem
 
-노인 복지 사업이 일회성 지원에 그치지 않고 지속 가능한 사업이 될 수 있는지 검토했습니다.
+We looked at whether elderly welfare programs could become sustainable businesses instead of one-off support.
 
 ## Approach
 
-- 복지가 아닌 문화·경제 관점에서, 기존과 다른 수익 구조를 가진 "무형의 인프라"를 기획했습니다.
-- 문제·목표 설정부터 BM 설계, IR까지 전 과정에 참여하며 기획·관리와 커뮤니케이션을 맡았습니다.
+- Framed the service from a cultural and economic angle rather than a welfare one, and designed an "intangible infrastructure" with a revenue model different from existing ones.
+- Took part in every stage from defining the problem and goals to BM design and IR, handling planning, project management, and communication.

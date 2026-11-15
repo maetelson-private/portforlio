@@ -1,13 +1,13 @@
 ---
-title: 직행 온보딩 개인화
-summary: 구직 플랫폼 직행의 회원가입 유도 기능과 온보딩을 통한 플랫폼 개인화
+title: Zighang Onboarding Personalization
+summary: Sign-up prompts and onboarding-based personalization for the job platform Zighang
 period: 2025.08 ~ 2025.09
 sort: 202508
-org: 기업 연계 프로젝트 (w. 직행)
+org: Corporate partner project (with Zighang)
 primary: strategy
 also: [data]
-roles: [PM, 서비스 기획]
-award: 기업 프로젝트 최종 발표회 우수상(2위)
+roles: [PM, Service planning]
+award: Excellence Award (2nd place), corporate project final presentation
 stack: [Notion, FigJam, Figma, Maze, React, Spring Boot, Clova OCR, GPT API]
 links:
   notion: https://u--x.notion.site/2970fb8090ab800595c4ea592053a48f
@@ -15,17 +15,17 @@ links:
 
 ## Problem
 
-기존 플랫폼은 회원가입 전환율이 0.66%로 낮고, 공고를 찾는 피로도가 높았습니다.
+The platform had a low sign-up conversion rate of 0.66%, and searching for job postings was tiring.
 
 ## Approach
 
-- 심층 인터뷰 10명, 설문 120명을 바탕으로 3-Layer 개인화 전략을 세웠습니다: 스마트 온보딩 → AI 초개인화 추천 → 실시간 탐색 보조.
-- 온보딩을 필수 5문항, 선택 업로드(자소서/이력서), 완료 캐러셀로 구성하고 기능 정의서 50여 항목을 썼습니다.
-- 자소서 분석 파이프라인을 설계했습니다: OCR → 정규화 → GPT 스킬 매핑 → 추천 근거 시각화.
-- 3시간 윈도우 실시간 랭킹을 설계했습니다 (Score = 0.2×Views + 0.3×Bookmarks + 0.5×ApplyClicks).
-- LLM 모델을 비교해 건당 비용을 0.0055$에서 0.00044$로 줄이는 구조를 설계했습니다 (약 90% 절감).
-- FE/BE 간 API 협의를 이끌고, 최종 결과를 기업 관계자 앞에서 직접 피칭했습니다.
+- Built a 3-layer personalization strategy from 10 in-depth interviews and a survey of 120 people: smart onboarding → AI hyper-personalized recommendations → real-time search assistance.
+- Structured onboarding as 5 required questions, an optional upload (cover letter/resume), and a completion carousel, and wrote a feature spec of about 50 items.
+- Designed a cover letter analysis pipeline: OCR → normalization → GPT skill mapping → visualized recommendation reasons.
+- Designed a real-time ranking over a 3-hour window (Score = 0.2×Views + 0.3×Bookmarks + 0.5×ApplyClicks).
+- Compared LLM models and designed a setup that cuts cost per request from $0.0055 to $0.00044 (about 90% savings).
+- Led FE/BE API discussions and pitched the final result to company stakeholders myself.
 
 ## Outcome
 
-- 기업 프로젝트 최종 발표회 우수상(2위)
+- Excellence Award (2nd place), corporate project final presentation

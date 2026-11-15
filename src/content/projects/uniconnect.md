@@ -1,13 +1,13 @@
 ---
 title: UNI:CONNECT
-summary: 타깃 마케팅을 위한 대학생 커뮤니티 기반 브랜드 샘플링 플랫폼
-period: 2025.07 ~ 현재
+summary: A brand sampling platform built on college student communities for targeted marketing
+period: 2025.07 ~ Present
 sort: 202507.8
-org: 창업팀 · UNIS 아이디어창업프로젝트 · ORDA Come-up
+org: Startup team · UNIS Idea Startup Project · ORDA Come-up
 primary: design
 also: [strategy, investment, development]
-roles: [브랜딩, UI/UX, 콘텐츠, 기획, FE]
-award: 예비창업패키지 Pre-incubating Y-STAR 선정 · UNIS 최우수상
+roles: [Branding, UI/UX, Content, Planning, FE]
+award: Selected for Pre-Startup Package Pre-incubating Y-STAR · UNIS Top Prize
 featured: true
 stack: [Figma, Branding, Instagram Content, React]
 links:
@@ -19,15 +19,15 @@ links:
 
 ## Role
 
-- **디자인**: 브랜딩, UI/UX, 인스타그램 콘텐츠 전체
-- **기획**: 기존 광고 대행 방식을 데이터 중심 채널로 바꾸는 기획, 대외협력
-- **FE**: React 기반 UI 구성
+- **Design**: Branding, UI/UX, and all Instagram content
+- **Planning**: Turned the traditional ad agency model into a data-driven channel, and handled external partnerships
+- **FE**: Built the UI in React
 
 ## Outcome
 
-- 신촌권 4개 대학 18개 학생회, 3개 기업과 함께 협찬품 14,000여 개 전달, 노출 인원 36,407명
-- 2025 예비창업패키지 Pre-incubating Y-STAR 선정
-- UNIS 아이디어창업프로젝트 최우수상
-- 오렌지플래닛 러닝메이트 4기 선정·수료
-- ORDA Come-up 트랙 선정
-- 서귀포시 스타트업베이 IR & Networking Camp 선정
+- Delivered about 14,000 sponsored products with 18 student councils across 4 universities in the Sinchon area and 3 companies, reaching 36,407 people
+- Selected for the 2025 Pre-Startup Package Pre-incubating Y-STAR
+- Top Prize, UNIS Idea Startup Project
+- Selected for and completed Orange Planet Running Mate, cohort 4
+- Selected for the ORDA Come-up track
+- Selected for the Startup Bay IR & Networking Camp in Seogwipo

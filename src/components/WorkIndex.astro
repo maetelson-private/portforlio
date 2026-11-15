@@ -73,7 +73,7 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
         })
       }
     </ul>
-    <p class="empty" data-empty hidden>이 분야의 프로젝트는 준비 중입니다.</p>
+    <p class="empty" data-empty hidden>No projects in this field yet.</p>
   </div>
 </section>
 
@@ -147,10 +147,11 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
   }
   .filters button {
     display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
+    align-items: center;
+    gap: 7px;
     height: 36px;
-    padding: 0 14px;
+    padding: 0 15px;
+    line-height: 1;
     border-radius: 999px;
     border: 1px solid var(--line-strong);
     font-size: 14px;
@@ -169,8 +170,9 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
   }
   .n {
     font-size: 12px;
+    line-height: 1;
     font-variant-numeric: tabular-nums;
-    opacity: 0.7;
+    opacity: 0.6;
   }
   .lead {
     max-width: 60ch;
@@ -337,6 +339,11 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     }
     .filters::-webkit-scrollbar {
       display: none;
+    }
+    .filters {
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+      mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+      padding-right: 48px;
     }
     .filters button {
       flex: none;

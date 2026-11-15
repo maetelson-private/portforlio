@@ -18,7 +18,7 @@ const p = project.data;
         {p.title}
         {p.featured && <span class="star">Featured</span>}
         {p.links.repoPrivate && (
-          <span class="lock" title="비공개 레포 — 요청 시 코드 공유">
+          <span class="lock" title="Private repository, available on request">
             <Icon name="lock" size={12} />
           </span>
         )}

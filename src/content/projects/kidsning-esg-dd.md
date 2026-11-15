@@ -1,36 +1,36 @@
 ---
-title: 키즈닝 M&A ESG 실사
-summary: 매각을 추진하는 육아 커머스의 Sell-side ESG 사전 실사. 실사지표 설계부터 기업가치 산정, 인수 구조 권고까지 진행
+title: Kidsning M&A ESG Due Diligence
+summary: Sell-side ESG pre-due diligence for a parenting commerce company preparing a sale, from designing the diligence indicators to valuation and a recommended deal structure
 period: 2026.03 ~ 2026.06
 sort: 202606.5
-org: 이화여대 기업가정신연계전공 × 리스팅 M&A Due Diligence Project · 6인 팀
+org: Ewha Womans University Entrepreneurship Interdisciplinary Major × Listing M&A Due Diligence Project · team of 6
 primary: investment
 also: [strategy, data]
-roles: [ESG 진단 체계 설계, 리서치 · 인터뷰, 밸류업 · Buyer Fit]
+roles: [ESG assessment framework design, Research · interviews, Value-up · buyer fit]
 featured: true
-stack: [KVIC 벤처 ESG, MSCI ESG Key Issue, SASB E-commerce, 중대성 매트릭스, EV/GMV 비교거래, DLOM]
+stack: [KVIC Venture ESG, MSCI ESG Key Issue, SASB E-commerce, Materiality matrix, EV/GMV comparable transactions, DLOM]
 links:
   notion: https://u--x.notion.site/4190fb8090ab8073afb8c7293a585a06
 ---
 
 ## Problem
 
-키즈닝은 셀러 750곳 이상의 네트워크를 가진 육아 버티컬 커머스로, 막 영업흑자로 돌아선 단계에서 경영권 최대 100% 이전을 포함한 매각을 추진하고 있었습니다. 팀은 협상에 앞서 비재무 리스크가 가격·계약 조건·인수 가능성에 어떤 영향을 주는지 알아내야 했습니다.
+Kidsning is a vertical parenting commerce platform with a network of 750+ sellers. It had just turned an operating profit and was pursuing a sale that could transfer up to 100% of control. Before negotiations, the team had to work out how non-financial risks would affect price, deal terms, and the likelihood of a deal closing.
 
 ## Approach
 
-- **산업·기업 분석**: 육아 시장은 출생아 감소에도 1인당 지출이 늘며 커지고 있고, 구매가 추천에 크게 기대는 카테고리입니다. 포지셔닝 맵에서 "신뢰·추천과 거래를 함께 제공하는 사업자"가 비어 있음을 확인하고, 이 시장이 직접 구축보다 인수로 확보하는 M&A 시장으로 바뀌고 있다고 봤습니다.
-- **프레임워크 선정**: 국내외 ESG 지표 64종을 딜 정합성(×0.5)·단계 적합성(×0.3)·업종 특화(×0.2)로 채점해 KVIC(기본)·MSCI(교차검증)·SASB E-commerce(산업 기준)를 골랐습니다.
-- **실사지표 설계**: KVIC 40개 항목을 존치 15·수정 18·삭제 7·신규 29로 재구성해 62개 실사지표(E 20·S 27·G 15)를 만들었습니다. 알고리즘 추천 투명성, 셀러 입점 심사, 셀러 정산처럼 플랫폼에만 있는 리스크를 새로 넣고, 지표마다 계약 조건으로 이어지는 Deal Impact 태그를 붙였습니다.
-- **가중치 설계**: 클라우드를 빌려 쓰는 구조라 E를 20%로 낮추고, 데이터·셀러 보호와 직결되는 S·G에 각 40%를 줬습니다.
-- **리스크 정량화**: 핵심 리스크마다 정비 비용·기간·계약 조건(R&W·CP·Covenant·Earn-out)·멀티플 영향을 산정했습니다.
-- **밸류에이션**: 이익이 아직 작아 EV/EBITDA 대신 EV/GMV 비교거래 멀티플을 쓰고, ESG 정비 프리미엄과 비유동성 할인을 반영했습니다.
+- **Industry and company analysis**: The parenting market is growing despite fewer births because spending per child keeps rising, and purchases in the category depend heavily on recommendations. A positioning map showed an empty spot for "a player offering both trusted recommendations and transactions," and we concluded the market is shifting toward M&A, where players acquire this capability instead of building it.
+- **Framework selection**: Scored 64 domestic and global ESG frameworks on deal fit (×0.5), stage fit (×0.3), and industry specificity (×0.2), and chose KVIC (base), MSCI (cross-check), and SASB E-commerce (industry standard).
+- **Diligence indicator design**: Rebuilt KVIC's 40 items (15 kept, 18 revised, 7 removed, 29 added) into 62 diligence indicators (E 20, S 27, G 15). Added platform-specific risks such as algorithmic recommendation transparency, seller onboarding review, and seller settlement, and tagged each indicator with a Deal Impact label that links it to deal terms.
+- **Weighting**: Set E at 20% because the company runs on rented cloud infrastructure, and gave S and G 40% each since they tie directly to data and seller protection.
+- **Risk quantification**: Estimated remediation cost, timeline, deal terms (R&W, CP, Covenant, Earn-out), and multiple impact for each key risk.
+- **Valuation**: Used EV/GMV comparable transaction multiples instead of EV/EBITDA because earnings were still small, and reflected an ESG remediation premium and an illiquidity discount.
 
 ## Outcome
 
-- 종합 등급 C 조건부, 가중 충족도 30.9%, 핵심 리스크 6건(HIGH 3, MED 3) 도출
-- 6건 모두 위법이 아닌 문서화·측정·권한 분리 미비로, 인수 후 6개월 안에 해소 가능한 디스카운트 요인으로 판단
-- 6건을 모두 정비하면 C→B 등급, 멀티플 +0.6x, 기업가치 최대 +30억 원
-- 기업가치 범위 Floor 1.4x(약 70억) / Fair 1.7x(약 87억) / Target 2.0x(약 102억)
-- 인수 구조 4안을 비교해 유연한 경영권 이양(최대 100%) + ESG 등급·GMV 연동 Earn-out을 권고
-- 산출물: 최종 발표 41p, 프레임워크 비교 채점표, 62개 실사지표 체계, 리스크 맵, Valuation Bridge, 6개월 Quick-win·M&A 로드맵
+- Overall grade C (conditional), weighted compliance 30.9%, 6 key risks identified (3 HIGH, 3 MED)
+- None of the 6 were legal violations. All were gaps in documentation, measurement, or separation of authority, so we judged them discount factors that could be resolved within 6 months after acquisition
+- Fixing all 6 moves the grade from C to B, adds +0.6x to the multiple, and adds up to ₩3B in enterprise value
+- Valuation range: Floor 1.4x (about ₩7.0B) / Fair 1.7x (about ₩8.7B) / Target 2.0x (about ₩10.2B)
+- Compared 4 deal structures and recommended a flexible transfer of control (up to 100%) plus an earn-out tied to ESG grade and GMV
+- Deliverables: 41-page final presentation, framework comparison scorecard, 62-indicator diligence system, risk map, Valuation Bridge, 6-month quick-win and M&A roadmap

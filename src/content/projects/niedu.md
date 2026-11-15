@@ -1,18 +1,18 @@
 ---
-title: NIEdu 니듀
-summary: 2030세대의 뉴스 이해와 지속을 돕는 에듀테크 플랫폼
+title: NIEdu
+summary: An edtech platform that helps people in their 20s and 30s understand the news and keep up with it
 period: 2025
 sort: 202511
-org: 이화여대 IT창업학회 UNIS
+org: UNIS (Ewha startup society)
 primary: strategy
 also: [investment]
-roles: [기획]
-award: UNIS 데모데이 대상 · 모의 투자 대회 최우수상
+roles: [Planning]
+award: Grand Prize, UNIS Demo Day · Top Prize, Mock Investment Competition
 links:
   notion: https://u--x.notion.site/2a00fb8090ab80399bb7f500e2910702
 ---
 
 ## Outcome
 
-- UNIS 데모데이 대상(1위)
-- UNIS 모의 투자 대회 최우수상(1위)
+- Grand Prize (1st place), UNIS Demo Day
+- Top Prize (1st place), UNIS Mock Investment Competition

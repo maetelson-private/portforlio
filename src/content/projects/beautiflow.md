@@ -1,11 +1,11 @@
 ---
-title: 뷰티플로우 BeautiFlow
-summary: 소규모 뷰티샵을 위한 맞춤형 예약·고객 관리 솔루션
+title: BeautiFlow
+summary: Booking and customer management tool for small beauty salons
 period: 2025.03 ~ 2025.08
 sort: 202507
-org: UMC 이화여대 지부 사이드 프로젝트
+org: UMC Ewha Womans University chapter side project
 primary: design
-roles: [UI/UX, BI · BX, 인쇄물]
+roles: [UI/UX, BI · BX, Print]
 stack: [Figma, Design System, Branding]
 links:
   live: https://beautiflow-maetelll-maetelll-l.vercel.app/
@@ -14,13 +14,13 @@ links:
 
 ## Role
 
-기획 → 디자인 → 개발 → 배포로 이어지는 UMC 사이드 프로젝트에서 디자인 전체를 맡았습니다.
+Owned all design work on a UMC side project that ran from planning through design, development, and launch.
 
-- 예약·고객 관리 흐름의 UI/UX
-- 서비스 BI와 브랜드 경험(BX)
-- 홍보용 인쇄물
+- UI/UX for the booking and customer management flows
+- Service BI and brand experience (BX)
+- Printed promotional materials
 
 ## Outcome
 
-- 랜딩 페이지 배포
-- 이후 UMC 이화여대 지부 디자인 파트장으로 다음 기수 디자이너들을 이끌었습니다.
+- Launched the landing page
+- Later led the next cohort of designers as design lead of the UMC Ewha chapter.

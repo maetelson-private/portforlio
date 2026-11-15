@@ -1,9 +1,10 @@
 export const profile = {
-  name: '손하늘',
+  name: 'Haneul Son',
   handle: 'Maetelson',
-  headline: '연결하고, 이해하는 올라운더',
-  intro: '경영전략, 투자 실사, 데이터 분석, 디자인, 개발을 오가며 일합니다. 기획한 것은 직접 화면으로 그리고 코드로 만들어 확인합니다.',
-  school: '이화여자대학교 컴퓨터공학 전공 · 기업가정신 복수전공 · 벤처투자학 마이크로디그리',
+  headline: 'Connecting the dots, from strategy to code',
+  intro:
+    'I work across business strategy, investment due diligence, data analysis, design, and development. When I plan something, I design it and build it myself to see if it holds up.',
+  school: 'Ewha Womans University · Computer Science and Engineering · Entrepreneurship (double major) · Venture Investment (micro-degree)',
   email: 'handsson@ewhain.net',
   links: [
     { label: 'GitHub', href: 'https://github.com/maetelson' },
@@ -15,50 +16,49 @@ export const profile = {
 export type AxisKey = 'strategy' | 'investment' | 'data' | 'design' | 'development';
 
 export interface Axis {
-  /** 화면 라벨 (영문) */
   label: string;
-  /** 필터를 골랐을 때 목록 위에 보이는 설명 한 줄 */
+  /** Shown above the list when this filter is selected */
   lead: string;
 }
 
-/** 전략에서 개발 순서 */
+/** Ordered from deciding what to build to building it */
 export const axisOrder: AxisKey[] = ['strategy', 'investment', 'data', 'design', 'development'];
 
 export const axes: Record<AxisKey, Axis> = {
   strategy: {
     label: 'Strategy',
-    lead: '시장과 고객을 조사해 사업 전략과 실행 계획을 세웁니다. 기업 산학협력 프로젝트에서 대상을 두 번 받았습니다.',
+    lead: 'I research markets and customers, then turn the findings into business strategy and execution plans. Two of these projects won the grand prize in corporate partnership programs.',
   },
   investment: {
     label: 'Investment & DD',
-    lead: '기업을 실사하고, 찾아낸 리스크를 기업가치와 계약 조건에 반영합니다.',
+    lead: 'I run due diligence on companies and translate the risks I find into valuation and deal terms.',
   },
   data: {
     label: 'Data',
-    lead: '데이터를 수집·정제·분석해 의사결정의 근거를 만듭니다.',
+    lead: 'I collect, clean, and analyze data to build evidence for decisions.',
   },
   design: {
     label: 'Design',
-    lead: 'IA와 화면, 브랜드를 설계합니다. UMC 이화여대 지부에서 디자인 파트장을 맡았습니다.',
+    lead: 'I design information architecture, interfaces, and brands. I led the design team at UMC Ewha.',
   },
   development: {
     label: 'Development',
-    lead: '웹과 모바일 서비스를 직접 개발하고 배포합니다.',
+    lead: 'I build and ship web and mobile products myself.',
   },
 };
 
 export const experience: { period: string; title: string; role: string }[] = [
-  { period: '2026.03 ~', title: '창업팀 KNEWIT', role: '대표' },
-  { period: '2026.03 ~', title: '이화여대 경영전략학회 DECK', role: '학술부장' },
-  { period: '2025.09 ~ 2026.02', title: 'UMC 이화여대 지부', role: '디자인 파트장' },
-  { period: '2025.09 ~ 2025.12', title: '한국대학생IT경영학회 KUSITMS 32기', role: '기획' },
-  { period: '2025.03 ~ 2025.08', title: 'UMC 이화여대 지부 · BeautiFlow', role: '디자이너' },
-  { period: '2025.02 ~', title: '공연 기획 봉사단 메리클로스 20기', role: '서비스·공연 기획, 홍보마케팅 PM' },
-  { period: '2025.02 ~', title: '이화여대 중앙실전창업학회 UNIS', role: 'FE·BE·디자인, 대외협력, 웹개발 TF 기획·FE' },
-  { period: '2024.09 ~ 2025.01', title: '신촌 연합 IT 창업 동아리 CEOS 20기', role: '기획' },
-  { period: '2024.08 ~ 2024.12', title: '이화여대 알고리즘 동아리 Altubitu', role: '멤버' },
-  { period: '2024.07 ~ 2024.08', title: '현대차 정몽구 재단 FutuRES College 3기', role: '수료' },
-  { period: '2023.09 ~ 2024.08', title: '서울대·이화여대 연합 예술 교육 봉사 동아리 씨앗', role: '작가팀' },
+  { period: '2026.03 ~', title: 'KNEWIT (startup)', role: 'Founder & CEO' },
+  { period: '2026.03 ~', title: 'DECK, Ewha business strategy society', role: 'Head of Research' },
+  { period: '2025.09 ~ 2026.02', title: 'UMC, Ewha chapter', role: 'Design Lead' },
+  { period: '2025.09 ~ 2025.12', title: 'KUSITMS, 32nd cohort', role: 'Product Planner' },
+  { period: '2025.03 ~ 2025.08', title: 'UMC, Ewha chapter · BeautiFlow', role: 'Designer' },
+  { period: '2025.02 ~', title: 'Merry Cloth performance volunteer group, 20th cohort', role: 'Service and performance planner, marketing PM' },
+  { period: '2025.02 ~', title: 'UNIS, Ewha startup society', role: 'Frontend, backend and design; partnerships; web TF planner and frontend' },
+  { period: '2024.09 ~ 2025.01', title: 'CEOS, Sinchon IT startup club, 20th cohort', role: 'Product Planner' },
+  { period: '2024.08 ~ 2024.12', title: 'Altubitu, Ewha algorithms club', role: 'Member' },
+  { period: '2024.07 ~ 2024.08', title: 'FutuRES College, Hyundai Motor Chung Mong-Koo Foundation, 3rd cohort', role: 'Completed' },
+  { period: '2023.09 ~ 2024.08', title: 'Ssiat, SNU and Ewha arts education volunteer club', role: 'Artist team' },
 ];
 
 export const toolkit: { group: string; items: string[] }[] = [
