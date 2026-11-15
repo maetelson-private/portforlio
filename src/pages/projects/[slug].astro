@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
-import { axes } from '../../data/site';
+import { axes, profile } from '../../data/site';
 import { getProjects, type Project } from '../../lib/projects';
 import { url } from '../../lib/url';
 
@@ -41,9 +41,9 @@ const links = [
   <article class="cs">
     <header class="container head">
       <nav class="crumbs" aria-label="Breadcrumb">
-        <a href={url('/#work')}>Work</a>
+        <a class="tap" href={url('/#work')}>Work</a>
         <span aria-hidden="true">/</span>
-        <a href={url(`/?field=${p.primary}#work`)}>{a.label}</a>
+        <a class="tap" href={url(`/?field=${p.primary}#work`)}>{a.label}</a>
       </nav>
       <p class="name">{p.title}</p>
       <h1>{p.summary}</h1>
@@ -53,7 +53,7 @@ const links = [
           <ul class="actions">
             {links.map((l) => (
               <li>
-                <a href={l.href} target="_blank" rel="noopener noreferrer">
+                <a class="tap" href={l.href} target="_blank" rel="noopener noreferrer">
                   {l.label} <Icon name="arrow-up-right" size={14} />
                 </a>
               </li>
@@ -89,7 +89,7 @@ const links = [
         <div>
           <dt>Fields</dt>
           <dd class="fields">
-            {fields.map((k) => <a href={url(`/?field=${k}#work`)}>{axes[k].label}</a>)}
+            {fields.map((k) => <a class="tap" href={url(`/?field=${k}#work`)}>{axes[k].label}</a>)}
           </dd>
         </div>
         {
@@ -115,13 +115,23 @@ const links = [
       </div>
     </div>
 
+    <section class="container reach" aria-labelledby="reach-title">
+      <h2 id="reach-title">Questions about this project, or working on something similar?</h2>
+      <div class="reach-links">
+        <a class="mail" href={`mailto:${profile.email}`}>
+          {profile.email} <Icon name="arrow-up-right" size={18} />
+        </a>
+        <a class="tap" href={profile.links.find((l) => l.label === 'LinkedIn')?.href} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </section>
+
     <nav class="container next" aria-label="Next project">
       <a class="next-link" href={url(`/projects/${next.id}/`)}>
         <span class="label">Next project</span>
         <span class="nt">{next.data.title} <Icon name="arrow" size={24} /></span>
         <span class="ns">{next.data.summary}</span>
       </a>
-      <a class="all" href={url('/#work')}>All work <span>({total})</span></a>
+      <a class="all tap" href={url('/#work')}>All work <span>({total})</span></a>
     </nav>
   </article>
 </Base>
@@ -376,6 +386,58 @@ const links = [
   .prose :global(blockquote p) {
     margin: 0;
     color: var(--text);
+  }
+
+  /* ── contact ── */
+  .reach {
+    display: grid;
+    gap: 18px;
+    padding-block: 40px 48px;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 900px) {
+    .reach {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+  .reach h2 {
+    max-width: 34ch;
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+  }
+  .reach-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 24px;
+  }
+  .reach .mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--green);
+    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 8px) / 0 1px no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reach .mail:hover {
+    background-size: 100% 1px;
+  }
+  .reach-links a.tap {
+    font-size: 15px;
+    color: var(--text-2);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 5px;
+  }
+  .reach-links a.tap:hover {
+    color: var(--green);
   }
 
   /* ── next ── */

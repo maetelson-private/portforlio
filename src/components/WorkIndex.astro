@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Ribbon3D from './Ribbon3D.astro';
 import { axes, axisOrder, type AxisKey } from '../data/site';
 import type { Project } from '../lib/projects';
 import { url } from '../lib/url';
@@ -16,12 +17,19 @@ const counts = Object.fromEntries(
 // 수상 문구가 길면 첫 항목만
 const shortAward = (a?: string) => (a ? a.split(' · ')[0] : '');
 const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
+const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
 ---
 
 <section class="work" id="work" aria-labelledby="work-title">
   <div class="container">
-    <div class="bar">
-      <h2 id="work-title">Work</h2>
+    <div class="bar" data-bar>
+      <div class="now">
+        <Ribbon3D variant="mini" />
+        <div class="now-text">
+          <h2 id="work-title">Work</h2>
+          <span class="current" data-current>All fields</span>
+        </div>
+      </div>
       <div class="filters" role="group" aria-label="Filter by field" data-filters>
         <button type="button" data-filter="all" aria-pressed="true">
           All <span class="n">{projects.length}</span>
@@ -52,8 +60,9 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
                   <span class="title">
                     {d.title}
                     {d.links.repoPrivate && (
-                      <span class="lock" title="Private repository">
+                      <span class="lock">
                         <Icon name="lock" size={12} />
+                        <span class="sr-only">(private repository)</span>
                       </span>
                     )}
                   </span>
@@ -77,11 +86,13 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
   </div>
 </section>
 
-<script define:vars={{ leads }}>
+<script define:vars={{ leads, labels }}>
   const root = document.getElementById('work');
   const buttons = Array.from(root.querySelectorAll('[data-filter]'));
   const rows = Array.from(root.querySelectorAll('.row'));
   const leadEl = root.querySelector('[data-lead]');
+  const currentEl = root.querySelector('[data-current]');
+  const bar = root.querySelector('[data-bar]');
   const emptyEl = root.querySelector('[data-empty]');
   let current = 'all';
 
@@ -98,6 +109,7 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     });
     emptyEl.hidden = shown > 0;
     leadEl.textContent = field === 'all' ? '' : leads[field];
+    currentEl.textContent = field === 'all' ? 'All fields' : labels[field];
     ribbon(field);
     if (push) {
       const u = new URL(location.href);
@@ -107,7 +119,21 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     }
   }
 
-  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter, true)));
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      apply(b.dataset.filter, true);
+      if (bar.getBoundingClientRect().top <= 80) {
+        const top = root.getBoundingClientRect().top + window.scrollY - 68;
+        window.scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+    }),
+  );
+  // 고정 바가 붙었는지 표시 (아래 선)
+  const sentinel = document.createElement('div');
+  bar.before(sentinel);
+  new IntersectionObserver(([e]) => bar.classList.toggle('is-stuck', !e.isIntersecting), {
+    rootMargin: '-69px 0px 0px 0px',
+  }).observe(sentinel);
 
   // 행에 올리면 리본이 그 프로젝트 분야의 형태로, 벗어나면 현재 필터로 돌아간다
   rows.forEach((r) => {
@@ -119,6 +145,13 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     r.addEventListener('focusout', leave);
   });
 
+  // 모바일 필터 줄: 끝까지 밀면 오른쪽 페이드를 없앤다
+  const strip = root.querySelector('[data-filters]');
+  const edge = () => strip.classList.toggle('at-end', strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 2);
+  strip.addEventListener('scroll', edge, { passive: true });
+  window.addEventListener('resize', edge);
+  edge();
+
   const initial = new URL(location.href).searchParams.get('field');
   apply(initial && leads[initial] ? initial : 'all', false);
 </script>
@@ -128,17 +161,42 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     padding-block: clamp(24px, 4vw, 48px) clamp(96px, 12vw, 160px);
   }
   .bar {
+    position: sticky;
+    top: 68px;
+    z-index: 20;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 16px 32px;
-    padding-bottom: 20px;
+    gap: 12px 32px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 12px var(--gutter);
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .bar.is-stuck {
+    border-bottom-color: var(--line);
+  }
+  .now {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .now-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
   h2 {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 600;
-    color: var(--text-2);
+    color: var(--muted);
+  }
+  .current {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
   }
   .filters {
     display: flex;
@@ -172,7 +230,6 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     font-size: 12px;
     line-height: 1;
     font-variant-numeric: tabular-nums;
-    opacity: 0.6;
   }
   .lead {
     max-width: 60ch;
@@ -181,7 +238,7 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     color: var(--text-2);
   }
   .lead:not(:empty) {
-    padding-bottom: 20px;
+    padding-block: 8px 20px;
   }
 
   .head,
@@ -209,9 +266,11 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
     transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   /* 한 행에 올리면 나머지는 흐려진다 */
-  .rows:hover .row:not(:hover),
-  .rows:focus-within .row:not(:focus-within) {
-    opacity: 0.32;
+  /* 마우스로 한 행에 올렸을 때만. 키보드 포커스에서는 흐리지 않는다 */
+  @media (hover: hover) {
+    .rows:hover .row:not(:hover) {
+      opacity: 0.55;
+    }
   }
   .row a {
     align-items: baseline;
@@ -345,8 +404,14 @@ const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
       mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
       padding-right: 48px;
     }
+    .filters.at-end {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
     .filters button {
       flex: none;
+      height: 44px;
     }
+
   }
 </style>

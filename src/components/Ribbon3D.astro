@@ -1,59 +1,80 @@
 ---
 import Wave from './Wave.astro';
+
+interface Props {
+  /** hero: 히어로의 큰 리본 / mini: Work 목록 고정 바의 작은 리본 */
+  variant?: 'hero' | 'mini';
+}
+const { variant = 'hero' } = Astro.props;
 ---
 
-<div class="ribbon" data-ribbon aria-hidden="true">
+<div class:list={['ribbon', variant]} data-ribbon aria-hidden="true">
   <!-- WebGL이 없거나 스크립트가 실패하면 이 SVG가 그대로 보인다 -->
-  <div class="fallback"><Wave seed={2} lines={60} /></div>
+  <div class="fallback"><Wave seed={2} lines={variant === 'mini' ? 24 : 60} /></div>
   <canvas></canvas>
 </div>
 
 <script>
-  import type { RibbonPreset } from '../lib/ribbon';
+  import type { RibbonPreset, RibbonHandle } from '../lib/ribbon';
 
-  const host = document.querySelector<HTMLElement>('[data-ribbon]');
-  const canvas = host?.querySelector('canvas');
-  if (host && canvas) {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let pending: RibbonPreset = 'all';
-    let setPreset = (p: RibbonPreset) => {
-      pending = p;
-    };
-    // 목록이 보내는 분야 신호를 받는다 (three.js 로딩 전 신호는 기억해 둔다)
-    document.addEventListener('ribbon:preset', (e) => setPreset((e as CustomEvent<RibbonPreset>).detail));
+  const hosts = Array.from(document.querySelectorAll<HTMLElement>('[data-ribbon]'));
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const handles: RibbonHandle[] = [];
+  let pending: RibbonPreset = 'all';
 
-    const io = new IntersectionObserver(
-      async ([entry]) => {
-        if (!entry.isIntersecting) return;
-        io.disconnect();
-        try {
-          const { mountRibbon } = await import('../lib/ribbon');
-          const handle = mountRibbon(host, canvas, { reducedMotion });
-          if (handle) {
-            host.classList.add('is-3d');
-            setPreset = (p) => handle.setPreset(p);
-            handle.setPreset(pending);
+  // 목록이 보내는 분야 신호. three.js 로딩 전에 온 신호는 기억했다가 적용한다
+  document.addEventListener('ribbon:preset', (e) => {
+    pending = (e as CustomEvent<RibbonPreset>).detail;
+    handles.forEach((h) => h.setPreset(pending));
+  });
+
+  // 동작 줄이기를 켠 사람에게는 three.js를 내려받지 않고 SVG 리본만 보여준다
+  if (!reducedMotion) {
+    hosts.forEach((host) => {
+      const canvas = host.querySelector('canvas');
+      if (!canvas) return;
+      const io = new IntersectionObserver(
+        async ([entry]) => {
+          if (!entry.isIntersecting) return;
+          io.disconnect();
+          try {
+            const { mountRibbon } = await import('../lib/ribbon');
+            const handle = mountRibbon(host, canvas, { reducedMotion });
+            if (handle) {
+              host.classList.add('is-3d');
+              handle.setPreset(pending);
+              handles.push(handle);
+            }
+          } catch {
+            /* 폴백 SVG 유지 */
           }
-        } catch {
-          /* 폴백 SVG 유지 */
-        }
-      },
-      { rootMargin: '200px' },
-    );
-    io.observe(host);
+        },
+        { rootMargin: '200px' },
+      );
+      io.observe(host);
+    });
   }
 </script>
 
 <style>
   .ribbon {
     position: relative;
-    height: clamp(180px, 24vw, 300px);
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent),
       linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
     -webkit-mask-composite: source-in;
     mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent),
       linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
     mask-composite: intersect;
+  }
+  .hero {
+    height: clamp(180px, 24vw, 300px);
+  }
+  .mini {
+    width: 112px;
+    height: 40px;
+    flex: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
   }
   .fallback,
   canvas {

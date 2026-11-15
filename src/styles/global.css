@@ -248,6 +248,15 @@ button {
   background: var(--green);
 }
 
+/* 터치 기기: 작은 링크도 최소 44px 높이의 터치 영역을 갖는다 */
+@media (pointer: coarse) {
+  .tap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 /* Reveal on scroll */
 .reveal {
   opacity: 0;
