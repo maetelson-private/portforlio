@@ -1,0 +1,70 @@
+---
+import Wave from './Wave.astro';
+---
+
+<div class="ribbon" data-ribbon aria-hidden="true">
+  <!-- WebGL이 없거나 스크립트가 실패하면 이 SVG가 그대로 보인다 -->
+  <div class="fallback"><Wave seed={2} lines={60} /></div>
+  <canvas></canvas>
+</div>
+
+<script>
+  const host = document.querySelector<HTMLElement>('[data-ribbon]');
+  const canvas = host?.querySelector('canvas');
+  if (host && canvas) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // 리본이 화면 가까이 오면 그때 three.js를 불러온다
+    const io = new IntersectionObserver(
+      async ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        try {
+          const { mountRibbon } = await import('../lib/ribbon');
+          const handle = mountRibbon(host, canvas, { reducedMotion });
+          if (handle) host.classList.add('is-3d');
+        } catch {
+          /* 폴백 SVG 유지 */
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    io.observe(host);
+  }
+</script>
+
+<style>
+  .ribbon {
+    position: relative;
+    height: clamp(180px, 26vw, 320px);
+    margin-block: clamp(8px, 2vw, 24px);
+    /* 좌우 끝을 배경으로 녹인다 */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+    mask-composite: intersect;
+  }
+  .fallback,
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .fallback :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  canvas {
+    opacity: 0;
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ribbon.is-3d canvas {
+    opacity: 1;
+  }
+  .ribbon.is-3d .fallback {
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+</style>
