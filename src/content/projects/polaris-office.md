@@ -4,7 +4,6 @@ summary: Lock-in strategy and interactive prototype to make Polaris Office the f
 period: 2026.05 ~ 2026.06
 sort: 202605
 org: DECK (Ewha business strategy society) × Polaris Office industry-academia project · team of 5
-symbol: FileText
 primary: strategy
 also: [data, design, development]
 roles: [PM, Service planning, Design, FE]

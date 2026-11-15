@@ -4,7 +4,6 @@ summary: Pilot store concept and marketing strategy built around meal solutions 
 period: 2026.04 ~ 2026.05
 sort: 202604
 org: DECK (Ewha business strategy society) × Lotte Mart industry-academia project · team of 5
-symbol: ShoppingCart
 primary: strategy
 also: [data, design]
 roles: [PM, Service planning, Design]

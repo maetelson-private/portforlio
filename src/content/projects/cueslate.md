@@ -5,7 +5,6 @@ period: 2026.06
 sort: 202606
 org: Personal project
 draft: true
-symbol: Presentation
 primary: development
 also: [strategy]
 roles: [Planning, FE, BE]

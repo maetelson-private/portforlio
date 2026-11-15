@@ -5,7 +5,6 @@ period: 2025
 sort: 202505
 org: UNIS × Next Challenge × Ewha festival organizing committee
 archive: true
-symbol: Ticket
 primary: strategy
 roles: [Planning, Marketing, Development support]
 stack: [Event Planning, Sponsorship, Offline · Instagram Promotion]

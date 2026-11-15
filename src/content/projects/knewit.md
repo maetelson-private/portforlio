@@ -4,7 +4,6 @@ summary: An F&B visit log and recommendation app built on card payment history, 
 period: 2026.03 ~ Present
 sort: 202603
 org: KNEWIT startup team · CEO
-symbol: MapPin
 primary: development
 also: [strategy, design, data]
 roles: [CEO, Planning, Design, FE]

@@ -5,7 +5,6 @@ period: 2026.03
 sort: 202603.2
 org: Personal project
 draft: true
-symbol: ChartScatter
 primary: development
 also: [design]
 roles: [Design, FE]

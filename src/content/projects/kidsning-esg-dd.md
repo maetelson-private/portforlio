@@ -4,7 +4,6 @@ summary: Sell-side ESG due diligence on a parenting commerce company preparing f
 period: 2026.03 ~ 2026.06
 sort: 202606.5
 org: Ewha Womans University Entrepreneurship Interdisciplinary Major × Listing M&A Due Diligence Project · team of 6
-symbol: SearchCheck
 primary: investment
 also: [strategy, data]
 roles: [ESG assessment framework design, Research · interviews, Value-up · buyer fit]

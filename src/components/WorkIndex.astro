@@ -1,7 +1,6 @@
 ---
 import Icon from './Icon.astro';
 import Ribbon3D from './Ribbon3D.astro';
-import ProjectSymbol from './ProjectSymbol.astro';
 import { axes, axisOrder, type AxisKey } from '../data/site';
 import type { Project } from '../lib/projects';
 import { url } from '../lib/url';
@@ -47,7 +46,7 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
     <p class="lead" data-lead aria-live="polite"></p>
 
     <div class="head" aria-hidden="true">
-      <span></span><span>Year</span><span>Project</span><span>Field</span><span>Recognition</span>
+      <span>Year</span><span>Project</span><span>Field</span><span>Recognition</span>
     </div>
     <ul class="rows" data-rows>
       {
@@ -56,9 +55,6 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
           return (
             <li class="row" data-fields={fieldsOf(p).join(' ')} data-primary={d.primary}>
               <a href={url(`/projects/${p.id}/`)}>
-                <span class="symcell">
-                  <ProjectSymbol name={d.symbol} />
-                </span>
                 <span class="year">{d.period.slice(0, 4)}</span>
                 <span class="main">
                   <span class="title">
@@ -248,7 +244,7 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
   .head,
   .row a {
     display: grid;
-    grid-template-columns: 44px 52px minmax(0, 1fr) 190px 210px 24px;
+    grid-template-columns: 64px minmax(0, 1fr) 200px 220px 24px;
     gap: 24px;
   }
   .head {
@@ -258,7 +254,7 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
     color: var(--muted);
   }
   .head span:last-child {
-    grid-column: 5 / 7;
+    grid-column: 4 / 6;
   }
   .rows {
     margin: 0;
@@ -277,7 +273,7 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
     }
   }
   .row a {
-    align-items: start;
+    align-items: baseline;
     padding: 22px 0;
   }
   .year {
@@ -344,25 +340,6 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
   .row a:focus-visible {
     outline-offset: -2px;
   }
-  /* 44px 심볼 기준으로 첫 줄을 맞춘다 */
-  .year,
-  .field,
-  .award,
-  .go {
-    padding-top: 12px;
-  }
-  .main {
-    padding-top: 7px;
-  }
-  .row a:hover .symcell :global(.sym),
-  .row a:focus-visible .symcell :global(.sym) {
-    border-color: var(--green-line);
-    background: var(--green-soft);
-  }
-  .row a:hover .symcell :global(.glyph),
-  .row a:focus-visible .symcell :global(.glyph) {
-    transform: rotate(-8deg) scale(1.1);
-  }
   .empty {
     padding: 28px 0;
     color: var(--muted);
@@ -376,27 +353,13 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
       border-top: 1px solid var(--line-strong);
     }
     .row a {
-      grid-template-columns: 44px minmax(0, 1fr) 20px;
-      gap: 6px 14px;
+      grid-template-columns: minmax(0, 1fr) 20px;
+      gap: 6px 12px;
       padding: 20px 0;
-      align-items: start;
-    }
-    .symcell {
-      grid-column: 1;
-      grid-row: 1 / span 4;
-    }
-    .year,
-    .field,
-    .award,
-    .main {
-      padding-top: 0;
-    }
-    .go {
-      padding-top: 2px;
     }
     .year,
     .field {
-      grid-column: 2;
+      grid-column: 1;
     }
     .year {
       order: 0;
@@ -404,7 +367,7 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
     }
     .main {
       order: 1;
-      grid-column: 2;
+      grid-column: 1;
     }
     .field {
       order: 2;
@@ -415,14 +378,14 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
     }
     .award {
       order: 3;
-      grid-column: 2;
+      grid-column: 1;
       font-size: 12px;
     }
     .award:empty {
       display: none;
     }
     .go {
-      grid-column: 3;
+      grid-column: 2;
       grid-row: 1 / span 2;
       align-self: start;
     }

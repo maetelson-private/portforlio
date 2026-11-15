@@ -4,7 +4,6 @@ summary: Sign-up prompts and onboarding-based personalization for the job platfo
 period: 2025.08 ~ 2025.09
 sort: 202508
 org: Corporate partner project (with Zighang)
-symbol: BriefcaseBusiness
 primary: strategy
 also: [data]
 roles: [PM, Service planning]

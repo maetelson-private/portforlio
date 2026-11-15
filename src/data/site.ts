@@ -53,7 +53,7 @@ export const experience: { period: string; title: string; role: string }[] = [
   { period: '2025.09 ~ 2026.02', title: 'UMC, Ewha chapter', role: 'Design Lead' },
   { period: '2025.09 ~ 2025.12', title: 'KUSITMS, 32nd cohort', role: 'Product Planner' },
   { period: '2025.03 ~ 2025.08', title: 'UMC, Ewha chapter · BeautiFlow', role: 'Designer' },
-  { period: '2025.02 ~', title: 'Merry Claus performance volunteer group, 20th cohort', role: 'Service and performance planner, marketing PM' },
+  { period: '2025.02 ~', title: 'Merry Cloth performance volunteer group, 20th cohort', role: 'Service and performance planner, marketing PM' },
   { period: '2025.02 ~', title: 'UNIS, Ewha startup society', role: 'Frontend, backend and design; partnerships; web TF planner and frontend' },
   { period: '2024.09 ~ 2025.01', title: 'CEOS, Sinchon IT startup club, 20th cohort', role: 'Product Planner' },
   { period: '2024.08 ~ 2024.12', title: 'Altubitu, Ewha algorithms club', role: 'Member' },

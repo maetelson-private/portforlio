@@ -1,10 +1,9 @@
 ---
-title: Merry Claus Promotion and Marketing
+title: Merry Cloth Promotion and Marketing
 summary: Orchestra concert planning, promotional content, Korean and English posters, and handout cards
 period: 2025
 sort: 202504.5
-org: Merry Claus performance volunteer group, cohort 20
-symbol: Music
+org: Merry Cloth performance volunteer group, cohort 20
 primary: design
 roles: [Print design, Promotion and marketing PM, Concert planning]
 stack: [Poster, Print, Instagram Reels, Blog]

@@ -4,7 +4,6 @@ summary: Date course recommendation and logging service for couples in their 20s
 period: 2025.08 ~ 2026.02
 sort: 202509
 org: KUSITMS cohort 32 meetup project · team of 8
-symbol: Heart
 primary: strategy
 roles: [Planning lead, Research, BM · GTM]
 stack: [User Research, IA, BM, GTM, TAM-SAM-SOM]

@@ -4,7 +4,6 @@ summary: Booking and customer management tool for small beauty salons
 period: 2025.03 ~ 2025.08
 sort: 202507
 org: UMC Ewha Womans University chapter side project
-symbol: Scissors
 primary: design
 roles: [UI/UX, BI · BX, Print]
 stack: [Figma, Design System, Branding]

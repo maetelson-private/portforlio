@@ -4,7 +4,6 @@ summary: A brokerage service for renting and trying out musical instruments
 period: 2024 ~ 2025
 sort: 202412
 org: Startup project
-symbol: Guitar
 primary: strategy
 also: [investment, design]
 roles: [PM / PO, Content design, MOU · IR, MVP]

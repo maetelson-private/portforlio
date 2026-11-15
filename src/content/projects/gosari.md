@@ -4,7 +4,6 @@ summary: Business model for a space brokerage service built for older adults
 period: 2024.07 ~ 2024.08
 sort: 202407
 org: Hyundai Motor Chung Mong-Koo Foundation FutuRES College, cohort 3
-symbol: Armchair
 primary: strategy
 also: [investment]
 roles: [Planning, BM design, IR]

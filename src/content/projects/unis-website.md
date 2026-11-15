@@ -4,7 +4,6 @@ summary: Admin design and frontend for the official website of UNIS, Ewha Womans
 period: 2025.07 ~ 2025.08
 sort: 202507.2
 org: UNIS web development task force
-symbol: LayoutDashboard
 primary: development
 also: [design]
 roles: [Planning, Design, FE]

@@ -2,7 +2,6 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
-import ProjectSymbol from '../../components/ProjectSymbol.astro';
 import { axes, profile } from '../../data/site';
 import { getProjects, type Project } from '../../lib/projects';
 import { url } from '../../lib/url';
@@ -46,10 +45,7 @@ const links = [
         <span aria-hidden="true">/</span>
         <a class="tap" href={url(`/?field=${p.primary}#work`)}>{a.label}</a>
       </nav>
-      <div class="title-row">
-        <ProjectSymbol name={p.symbol} size="lg" />
-        <h1>{p.title}</h1>
-      </div>
+      <h1>{p.title}</h1>
       <p class="lede">{p.summary}</p>
 
       {
@@ -157,13 +153,8 @@ const links = [
   .crumbs a:hover {
     color: var(--green);
   }
-  .title-row {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-top: clamp(28px, 4.5vw, 48px);
-  }
   h1 {
+    margin-top: clamp(28px, 4.5vw, 48px);
     max-width: 18ch;
     font-size: clamp(40px, 6vw, 76px);
     font-weight: 600;

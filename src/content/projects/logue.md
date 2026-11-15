@@ -4,7 +4,6 @@ summary: An AI service that connects data sources and analyzes them through conv
 period: 2026.03 ~ 2026.06
 sort: 202603.5
 org: Ewha Womans University Capstone Design · 26-ewha-capstone-logue
-symbol: MessageSquareText
 primary: development
 also: [data, strategy]
 roles: [Planning, FE, API design]
