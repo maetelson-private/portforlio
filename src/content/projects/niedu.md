@@ -4,6 +4,7 @@ summary: An edtech platform that helps people in their 20s and 30s understand th
 period: 2025
 sort: 202511
 org: UNIS (Ewha startup society)
+symbol: Newspaper
 primary: strategy
 also: [investment]
 roles: [Planning]

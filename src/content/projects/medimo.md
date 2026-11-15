@@ -4,6 +4,7 @@ summary: A platform that connects farms and veterinarians to manage livestock ca
 period: 2025.07 (3-day hackathon)
 sort: 202507.5
 org: UNIS (Ewha startup society) U-KATHON
+symbol: Stethoscope
 primary: design
 also: [strategy]
 roles: [UI/UX, BI, IA · user flow, Planning]

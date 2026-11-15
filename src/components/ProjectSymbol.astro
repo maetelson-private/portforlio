@@ -1,0 +1,63 @@
+---
+import * as lucide from 'lucide-static';
+
+interface Props {
+  name?: string;
+  size?: 'sm' | 'lg';
+}
+const { name, size = 'sm' } = Astro.props;
+const raw = name ? (lucide as unknown as Record<string, string | undefined>)[name] : undefined;
+// 빌드 시 SVG 문자열을 넣는다. 선 굵기만 사이트에 맞게 조정
+const svg = raw
+  ?.replace(/width="24"/, 'width="100%"')
+  .replace(/height="24"/, 'height="100%"')
+  .replace(/stroke-width="2"/, 'stroke-width="1.6"')
+  .replace(/class="[^"]*"/, 'aria-hidden="true" focusable="false"');
+---
+
+{
+  svg && (
+    <span class:list={['sym', size]} aria-hidden="true">
+      <span class="glyph" set:html={svg} />
+    </span>
+  )
+}
+
+<style>
+  .sym {
+    display: grid;
+    place-items: center;
+    flex: none;
+    border: 1px solid var(--line-strong);
+    color: var(--green);
+    background: var(--bg);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .sm {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+  .lg {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+  }
+  .glyph {
+    display: block;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sm .glyph {
+    width: 20px;
+    height: 20px;
+  }
+  .lg .glyph {
+    width: 30px;
+    height: 30px;
+  }
+  .glyph :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>

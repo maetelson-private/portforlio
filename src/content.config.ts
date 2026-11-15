@@ -16,6 +16,8 @@ const projects = defineCollection({
     /** 정렬용 (최신순) */
     sort: z.number(),
     org: z.string().optional(),
+    /** Lucide 아이콘 이름 (PascalCase). 목록과 상세 페이지의 프로젝트 심볼 */
+    symbol: z.string().optional(),
     /** 이 프로젝트가 대표로 속하는 축 하나 */
     primary: axis,
     /** 함께 쓰인 다른 역량 축. 해당 축 페이지의 '관련 프로젝트'에 나온다 */

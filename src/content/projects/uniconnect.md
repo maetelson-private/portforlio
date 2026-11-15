@@ -4,6 +4,7 @@ summary: A brand sampling platform built on college student communities for targ
 period: 2025.07 ~ Present
 sort: 202507.8
 org: Startup team · UNIS Idea Startup Project · ORDA Come-up
+symbol: Gift
 primary: design
 also: [strategy, investment, development]
 roles: [Branding, UI/UX, Content, Planning, FE]

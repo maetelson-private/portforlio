@@ -3,6 +3,7 @@ title: Bluepoint Partners × EWHA CAMPUS VC Deal Sourcing
 summary: Startup deal sourcing project (to be published once the Notion page is written)
 period: 2026
 sort: 202609
+symbol: Handshake
 primary: investment
 roles: [Deal sourcing]
 draft: true

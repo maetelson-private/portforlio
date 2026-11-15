@@ -4,6 +4,7 @@ summary: A research pipeline that keeps only the personas backed by verified evi
 period: 2026.04 ~ 2026.07
 sort: 202604.5
 org: LOGUE capstone · Personal research engineering
+symbol: UserSearch
 primary: data
 also: [development, strategy]
 roles: [Pipeline design, Data engineering, Research]

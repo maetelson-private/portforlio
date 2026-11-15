@@ -5,6 +5,7 @@ period: 2023 ~ 2024
 sort: 202312
 org: Ssiat, SNU and Ewha joint arts education volunteer club · artist team
 archive: true
+symbol: Frame
 primary: strategy
 roles: [Exhibition planning, Outreach · MOU, Event planning]
 links:
