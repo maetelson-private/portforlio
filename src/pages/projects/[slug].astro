@@ -29,30 +29,30 @@ function section(name: string): string {
   const hit = parts.find((s) => s.startsWith(name));
   return hit ? hit.slice(hit.indexOf('\n') + 1).trim() : '';
 }
-const situation = plain(section('문제').split(/\n\s*\n/)[0] ?? '');
-const resultItems = section('결과')
+const situation = plain(section('Problem').split(/\n\s*\n/)[0] ?? '');
+const resultItems = section('Outcome')
   .split('\n')
   .filter((l) => l.startsWith('- '))
   .slice(0, 3)
   .map((l) => plain(l.slice(2)));
-const category = [p.primary, ...p.also].map((k) => axes[k].ko).join(' · ');
+const category = [p.primary, ...p.also].map((k) => axes[k].label).join(', ');
 const { Content } = await render(project);
 
 const links = [
   p.links.live && { label: 'Live', href: p.links.live },
   p.links.repo && { label: 'GitHub', href: p.links.repo },
   p.links.figma && { label: 'Figma', href: p.links.figma },
-  p.links.notion && { label: 'Notion 기획서', href: p.links.notion },
+  p.links.notion && { label: 'Notion', href: p.links.notion },
   ...(p.links.extra ?? []),
 ].filter(Boolean) as { label: string; href: string }[];
 ---
 
 <Base title={`${p.title} — 손하늘 포트폴리오`} description={p.summary}>
   <article>
-    <header class="head grid-bg">
+    <header class="head">
       <div class="glow" aria-hidden="true"></div>
       <div class="container">
-        <a class="back" href={url(`/${p.primary}/`)}>← {a.ko}</a>
+        <a class="back" href={url(`/?field=${p.primary}#work`)}>← Work</a>
         <h1>{p.title}</h1>
         <p class="lede">{p.summary}</p>
 
@@ -89,7 +89,7 @@ const links = [
               ))}
               {p.links.repoPrivate && (
                 <span class="btn btn-ghost private" title="비공개 레포 — 요청 시 코드 공유">
-                  <Icon name="lock" size={14} /> Private repo · 요청 시 공유
+                  <Icon name="lock" size={14} /> Private repo, available on request
                 </span>
               )}
             </div>
@@ -150,9 +150,9 @@ const links = [
       }
     </div>
 
-    <nav class="container next" aria-label="다음 프로젝트">
+    <nav class="container next" aria-label="Next project">
       <a href={url(`/projects/${next.id}/`)}>
-        <span class="nl">다음 프로젝트</span>
+        <span class="nl">Next project</span>
         <span class="nt">{next.data.title} <Icon name="arrow" size={22} /></span>
       </a>
     </nav>

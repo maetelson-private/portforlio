@@ -9,11 +9,19 @@ import Wave from './Wave.astro';
 </div>
 
 <script>
+  import type { RibbonPreset } from '../lib/ribbon';
+
   const host = document.querySelector<HTMLElement>('[data-ribbon]');
   const canvas = host?.querySelector('canvas');
   if (host && canvas) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // 리본이 화면 가까이 오면 그때 three.js를 불러온다
+    let pending: RibbonPreset = 'all';
+    let setPreset = (p: RibbonPreset) => {
+      pending = p;
+    };
+    // 목록이 보내는 분야 신호를 받는다 (three.js 로딩 전 신호는 기억해 둔다)
+    document.addEventListener('ribbon:preset', (e) => setPreset((e as CustomEvent<RibbonPreset>).detail));
+
     const io = new IntersectionObserver(
       async ([entry]) => {
         if (!entry.isIntersecting) return;
@@ -21,7 +29,11 @@ import Wave from './Wave.astro';
         try {
           const { mountRibbon } = await import('../lib/ribbon');
           const handle = mountRibbon(host, canvas, { reducedMotion });
-          if (handle) host.classList.add('is-3d');
+          if (handle) {
+            host.classList.add('is-3d');
+            setPreset = (p) => handle.setPreset(p);
+            handle.setPreset(pending);
+          }
         } catch {
           /* 폴백 SVG 유지 */
         }
@@ -35,9 +47,7 @@ import Wave from './Wave.astro';
 <style>
   .ribbon {
     position: relative;
-    height: clamp(180px, 26vw, 320px);
-    margin-block: clamp(8px, 2vw, 24px);
-    /* 좌우 끝을 배경으로 녹인다 */
+    height: clamp(180px, 24vw, 300px);
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent),
       linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
     -webkit-mask-composite: source-in;

@@ -1,23 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import AxisCards from '../components/AxisCards.astro';
-import Featured from '../components/Featured.astro';
+import WorkIndex from '../components/WorkIndex.astro';
 import Contact from '../components/Contact.astro';
-import { axisOrder, type AxisKey } from '../data/site';
-import { getProjects, primaryOf } from '../lib/projects';
+import { getProjects } from '../lib/projects';
 
-const projects = await getProjects();
-
-// 축 순서대로 대표작을 하나 이상 뽑는다 (featured: true)
-const featured = axisOrder.flatMap((k) => projects.filter((p) => p.data.featured && p.data.primary === k));
-
-const counts = Object.fromEntries(axisOrder.map((k) => [k, primaryOf(projects, k).length])) as Record<AxisKey, number>;
+const projects = (await getProjects()).filter((p) => !p.data.archive);
 ---
 
 <Base>
   <Hero />
-  <AxisCards counts={counts} />
-  <Featured projects={featured} />
+  <WorkIndex projects={projects} />
   <Contact />
 </Base>

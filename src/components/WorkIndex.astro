@@ -1,0 +1,345 @@
+---
+import Icon from './Icon.astro';
+import { axes, axisOrder, type AxisKey } from '../data/site';
+import type { Project } from '../lib/projects';
+import { url } from '../lib/url';
+
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+
+const fieldsOf = (p: Project): AxisKey[] => [p.data.primary, ...p.data.also];
+const counts = Object.fromEntries(
+  axisOrder.map((k) => [k, projects.filter((p) => fieldsOf(p).includes(k)).length]),
+) as Record<AxisKey, number>;
+// 수상 문구가 길면 첫 항목만
+const shortAward = (a?: string) => (a ? a.split(' · ')[0] : '');
+const leads = Object.fromEntries(axisOrder.map((k) => [k, axes[k].lead]));
+---
+
+<section class="work" id="work" aria-labelledby="work-title">
+  <div class="container">
+    <div class="bar">
+      <h2 id="work-title">Work</h2>
+      <div class="filters" role="group" aria-label="Filter by field" data-filters>
+        <button type="button" data-filter="all" aria-pressed="true">
+          All <span class="n">{projects.length}</span>
+        </button>
+        {
+          axisOrder.map((k) => (
+            <button type="button" data-filter={k} aria-pressed="false">
+              {axes[k].label} <span class="n">{counts[k]}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+    <p class="lead" data-lead aria-live="polite"></p>
+
+    <div class="head" aria-hidden="true">
+      <span>Year</span><span>Project</span><span>Field</span><span>Recognition</span>
+    </div>
+    <ul class="rows" data-rows>
+      {
+        projects.map((p) => {
+          const d = p.data;
+          return (
+            <li class="row" data-fields={fieldsOf(p).join(' ')} data-primary={d.primary}>
+              <a href={url(`/projects/${p.id}/`)}>
+                <span class="year">{d.period.slice(0, 4)}</span>
+                <span class="main">
+                  <span class="title">
+                    {d.title}
+                    {d.links.repoPrivate && (
+                      <span class="lock" title="Private repository">
+                        <Icon name="lock" size={12} />
+                      </span>
+                    )}
+                  </span>
+                  <span class="sum">{d.summary}</span>
+                </span>
+                <span class="field">
+                  <span class="primary">{axes[d.primary].label}</span>
+                  {d.also.length > 0 && <span class="also">+ {d.also.map((k) => axes[k].label).join(', ')}</span>}
+                </span>
+                <span class="award">{shortAward(d.award)}</span>
+                <span class="go" aria-hidden="true">
+                  <Icon name="arrow-up-right" size={16} />
+                </span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <p class="empty" data-empty hidden>이 분야의 프로젝트는 준비 중입니다.</p>
+  </div>
+</section>
+
+<script define:vars={{ leads }}>
+  const root = document.getElementById('work');
+  const buttons = Array.from(root.querySelectorAll('[data-filter]'));
+  const rows = Array.from(root.querySelectorAll('.row'));
+  const leadEl = root.querySelector('[data-lead]');
+  const emptyEl = root.querySelector('[data-empty]');
+  let current = 'all';
+
+  const ribbon = (p) => document.dispatchEvent(new CustomEvent('ribbon:preset', { detail: p }));
+
+  function apply(field, push) {
+    current = field;
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === field)));
+    let shown = 0;
+    rows.forEach((r) => {
+      const on = field === 'all' || r.dataset.fields.split(' ').includes(field);
+      r.hidden = !on;
+      if (on) shown++;
+    });
+    emptyEl.hidden = shown > 0;
+    leadEl.textContent = field === 'all' ? '' : leads[field];
+    ribbon(field);
+    if (push) {
+      const u = new URL(location.href);
+      if (field === 'all') u.searchParams.delete('field');
+      else u.searchParams.set('field', field);
+      history.replaceState(null, '', u);
+    }
+  }
+
+  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter, true)));
+
+  // 행에 올리면 리본이 그 프로젝트 분야의 형태로, 벗어나면 현재 필터로 돌아간다
+  rows.forEach((r) => {
+    const enter = () => ribbon(r.dataset.primary);
+    const leave = () => ribbon(current);
+    r.addEventListener('pointerenter', enter);
+    r.addEventListener('pointerleave', leave);
+    r.addEventListener('focusin', enter);
+    r.addEventListener('focusout', leave);
+  });
+
+  const initial = new URL(location.href).searchParams.get('field');
+  apply(initial && leads[initial] ? initial : 'all', false);
+</script>
+
+<style>
+  .work {
+    padding-block: clamp(24px, 4vw, 48px) clamp(96px, 12vw, 160px);
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding-bottom: 20px;
+  }
+  h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .filters button {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    font-size: 14px;
+    color: var(--text-2);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .filters button:hover {
+    color: var(--text);
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+  .filters button[aria-pressed='true'] {
+    color: #03140c;
+    background: var(--green);
+    border-color: var(--green);
+    font-weight: 600;
+  }
+  .n {
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+  }
+  .lead {
+    max-width: 60ch;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-2);
+  }
+  .lead:not(:empty) {
+    padding-bottom: 20px;
+  }
+
+  .head,
+  .row a {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 200px 220px 24px;
+    gap: 24px;
+  }
+  .head {
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--line-strong);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .head span:last-child {
+    grid-column: 4 / 6;
+  }
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .row {
+    border-bottom: 1px solid var(--line);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* 한 행에 올리면 나머지는 흐려진다 */
+  .rows:hover .row:not(:hover),
+  .rows:focus-within .row:not(:focus-within) {
+    opacity: 0.32;
+  }
+  .row a {
+    align-items: baseline;
+    padding: 22px 0;
+  }
+  .year {
+    font-size: 14px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+  .title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    transition: color 0.25s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lock {
+    color: var(--muted);
+  }
+  .sum {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+  }
+  .primary {
+    color: var(--text-2);
+  }
+  .also {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .award {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+  .go {
+    align-self: center;
+    color: var(--muted);
+    transition: color 0.25s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .row a:hover .title,
+  .row a:focus-visible .title {
+    color: var(--green);
+    transform: translateX(6px);
+  }
+  .row a:hover .go,
+  .row a:focus-visible .go {
+    color: var(--green);
+    transform: translate(3px, -3px);
+  }
+  .row a:focus-visible {
+    outline-offset: -2px;
+  }
+  .empty {
+    padding: 28px 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 960px) {
+    .head {
+      display: none;
+    }
+    .rows {
+      border-top: 1px solid var(--line-strong);
+    }
+    .row a {
+      grid-template-columns: minmax(0, 1fr) 20px;
+      gap: 6px 12px;
+      padding: 20px 0;
+    }
+    .year,
+    .field {
+      grid-column: 1;
+    }
+    .year {
+      order: 0;
+      font-size: 12px;
+    }
+    .main {
+      order: 1;
+      grid-column: 1;
+    }
+    .field {
+      order: 2;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 12px;
+    }
+    .award {
+      order: 3;
+      grid-column: 1;
+      font-size: 12px;
+    }
+    .award:empty {
+      display: none;
+    }
+    .go {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: start;
+    }
+    .filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-inline: calc(var(--gutter) * -1);
+      padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+    .filters button {
+      flex: none;
+    }
+  }
+</style>

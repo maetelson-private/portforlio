@@ -12,7 +12,7 @@ links:
   notion: https://u--x.notion.site/2a00fb8090ab80399bb7f500e2910702
 ---
 
-## 결과
+## Outcome
 
-- 🏆 UNIS 데모데이 **대상(1위)**
-- 🏆 UNIS 모의 투자 대회 **최우수상(1위)**
+- UNIS 데모데이 대상(1위)
+- UNIS 모의 투자 대회 최우수상(1위)
