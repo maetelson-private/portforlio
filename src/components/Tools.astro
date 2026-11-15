@@ -11,7 +11,7 @@ const iconFor = (slug?: string) => (slug ? icons[`si${slug[0].toUpperCase()}${sl
   <div class="container">
     <div class="sec-head reveal">
       <h2 id="tools-title">Tools</h2>
-      <p>What I use day to day, grouped by the kind of work. Every tool here shows up in at least one project.</p>
+      <p>What I use day to day, grouped by the kind of work.</p>
     </div>
 
     <div class="groups">
@@ -39,7 +39,6 @@ const iconFor = (slug?: string) => (slug ? icons[`si${slug[0].toUpperCase()}${sl
                       )}
                     </span>
                     <span class="name">{t.name}</span>
-                    {t.note && <span class="note">{t.note}</span>}
                   </li>
                 );
               })}
@@ -100,11 +99,5 @@ const iconFor = (slug?: string) => (slug ? icons[`si${slug[0].toUpperCase()}${sl
   .name {
     font-size: 15px;
     color: var(--text);
-  }
-  .note {
-    margin-left: auto;
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
   }
 </style>

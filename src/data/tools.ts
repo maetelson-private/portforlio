@@ -6,7 +6,6 @@
 export interface Tool {
   name: string;
   icon?: string;
-  note?: string;
 }
 
 export const toolGroups: { group: string; tools: Tool[] }[] = [
@@ -14,11 +13,11 @@ export const toolGroups: { group: string; tools: Tool[] }[] = [
     group: 'Research & Strategy',
     tools: [
       { name: 'Notion', icon: 'notion' },
-      { name: 'Google Forms', icon: 'googleforms', note: 'Surveys' },
+      { name: 'Google Forms', icon: 'googleforms' },
       { name: 'Google Sheets', icon: 'googlesheets' },
-      { name: 'Maze', icon: 'maze', note: 'Usability tests' },
-      { name: 'PowerPoint', note: 'Decks' },
-      { name: 'Excel', note: 'Models' },
+      { name: 'Maze', icon: 'maze' },
+      { name: 'PowerPoint' },
+      { name: 'Excel' },
     ],
   },
   {
@@ -34,7 +33,7 @@ export const toolGroups: { group: string; tools: Tool[] }[] = [
     group: 'Design',
     tools: [
       { name: 'Figma', icon: 'figma' },
-      { name: 'FigJam', icon: 'figma', note: 'Flows' },
+      { name: 'FigJam', icon: 'figma' },
     ],
   },
   {

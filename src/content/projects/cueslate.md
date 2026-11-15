@@ -4,6 +4,7 @@ summary: A web service that shares a PDF as a slide deck behind a single link in
 period: 2026.06
 sort: 202606
 org: Personal project
+draft: true
 primary: development
 also: [strategy]
 roles: [Planning, FE, BE]

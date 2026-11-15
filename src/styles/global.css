@@ -97,23 +97,15 @@ button {
   color: #04130c;
 }
 html {
-  scrollbar-color: #2f3532 var(--bg);
   caret-color: var(--green);
+  /* 스크롤바는 보이지 않게 (스크롤 동작은 유지) */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: #2f3532;
-  border: 2px solid var(--bg);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #47504c;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 /* ───────────── Layout helpers ───────────── */

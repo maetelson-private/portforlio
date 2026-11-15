@@ -4,6 +4,7 @@ summary: A node editor for user flows and architecture that keeps planners and d
 period: 2026.03
 sort: 202603.2
 org: Personal project
+draft: true
 primary: development
 also: [design]
 roles: [Design, FE]
