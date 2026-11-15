@@ -1,6 +1,6 @@
 ---
 title: Kidsning M&A ESG Due Diligence
-summary: Sell-side ESG pre-due diligence for a parenting commerce company preparing a sale, from designing the diligence indicators to valuation and a recommended deal structure
+summary: Sell-side ESG due diligence on a parenting commerce company preparing for a sale
 period: 2026.03 ~ 2026.06
 sort: 202606.5
 org: Ewha Womans University Entrepreneurship Interdisciplinary Major × Listing M&A Due Diligence Project · team of 6
