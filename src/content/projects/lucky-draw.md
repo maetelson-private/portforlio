@@ -4,7 +4,8 @@ summary: 축제 기간 990원 럭키드로우 이벤트를 기획하고, 경품�
 period: 2025
 sort: 202505
 org: UNIS × 넥스트챌린지 × 이화여대 축제준비위원회
-primary: planning
+archive: true
+primary: strategy
 roles: [기획, 마케팅, 개발 지원]
 stack: [Event Planning, Sponsorship, Offline · Instagram Promotion]
 links:

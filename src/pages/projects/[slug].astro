@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
-import { disciplines } from '../../data/site';
+import { axes } from '../../data/site';
 import { getProjects, type Project } from '../../lib/projects';
 import { url } from '../../lib/url';
 
@@ -20,7 +20,22 @@ interface Props {
 }
 const { project, next } = Astro.props;
 const p = project.data;
-const d = disciplines[p.primary];
+const a = axes[p.primary];
+
+// 본문 마크다운에서 '문제'와 '결과' 섹션을 뽑아 상단 3단 요약(Overview / Situation / Result)을 만든다
+const plain = (t: string) => t.replace(/\*\*/g, '').replace(/`/g, '').trim();
+function section(name: string): string {
+  const parts = (project.body ?? '').split(/^## /m);
+  const hit = parts.find((s) => s.startsWith(name));
+  return hit ? hit.slice(hit.indexOf('\n') + 1).trim() : '';
+}
+const situation = plain(section('문제').split(/\n\s*\n/)[0] ?? '');
+const resultItems = section('결과')
+  .split('\n')
+  .filter((l) => l.startsWith('- '))
+  .slice(0, 3)
+  .map((l) => plain(l.slice(2)));
+const category = [p.primary, ...p.also].map((k) => axes[k].ko).join(' · ');
 const { Content } = await render(project);
 
 const links = [
@@ -37,42 +52,31 @@ const links = [
     <header class="head grid-bg">
       <div class="glow" aria-hidden="true"></div>
       <div class="container">
-        <a class="back mono" href={url(`/#${p.primary}`)}>← {d.no} {d.ko}</a>
-        <p class="eyebrow">{d.no} — {d.en}{p.featured && ' · ★ Featured'}</p>
+        <a class="back" href={url(`/${p.primary}/`)}>← {a.ko}</a>
         <h1>{p.title}</h1>
         <p class="lede">{p.summary}</p>
 
         <dl class="meta">
-          <div>
-            <dt>기간</dt>
-            <dd>{p.period}</dd>
-          </div>
           {
             p.org && (
               <div>
-                <dt>소속</dt>
+                <dt>client</dt>
                 <dd>{p.org}</dd>
               </div>
             )
           }
           <div>
-            <dt>역할</dt>
-            <dd class="tags">
-              {p.roles.map((r) => (
-                <span class="tag tag-green">{r}</span>
-              ))}
-            </dd>
+            <dt>date</dt>
+            <dd>{p.period}</dd>
           </div>
-          {
-            p.award && (
-              <div>
-                <dt>성과</dt>
-                <dd class="award">
-                  <Icon name="trophy" size={14} /> {p.award}
-                </dd>
-              </div>
-            )
-          }
+          <div>
+            <dt>role</dt>
+            <dd>{p.roles.join(' · ')}</dd>
+          </div>
+          <div>
+            <dt>category</dt>
+            <dd>{category}</dd>
+          </div>
         </dl>
 
         {
@@ -94,6 +98,40 @@ const links = [
       </div>
     </header>
 
+    {
+      (situation || resultItems.length > 0 || p.award) && (
+        <section class="container ovr" aria-label="요약">
+          <div>
+            <h2 class="rule-title">Overview</h2>
+            <p>{p.summary}</p>
+          </div>
+          {situation && (
+            <div>
+              <h2 class="rule-title">Situation</h2>
+              <p>{situation}</p>
+            </div>
+          )}
+          {(resultItems.length > 0 || p.award) && (
+            <div>
+              <h2 class="rule-title">Result</h2>
+              {p.award && (
+                <p class="award">
+                  <Icon name="trophy" size={14} /> {p.award}
+                </p>
+              )}
+              {resultItems.length > 0 && (
+                <ul>
+                  {resultItems.map((r) => (
+                    <li>{r}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </section>
+      )
+    }
+
     <div class="container layout">
       <div class="prose">
         <Content />
@@ -101,7 +139,7 @@ const links = [
       {
         p.stack.length > 0 && (
           <aside class="side">
-            <p class="eyebrow">Stack & Tools</p>
+            <h2 class="rule-title">Stack & Tools</h2>
             <ul>
               {p.stack.map((s) => (
                 <li class="tag">{s}</li>
@@ -114,7 +152,7 @@ const links = [
 
     <nav class="container next" aria-label="다음 프로젝트">
       <a href={url(`/projects/${next.id}/`)}>
-        <span class="mono">Next project</span>
+        <span class="nl">다음 프로젝트</span>
         <span class="nt">{next.data.title} <Icon name="arrow" size={22} /></span>
       </a>
     </nav>
@@ -171,12 +209,10 @@ const links = [
     }
   }
   dt {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 600;
     color: var(--muted);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   dd {
     margin: 0;
@@ -205,6 +241,30 @@ const links = [
   .private {
     cursor: default;
     color: var(--text-2);
+  }
+  .ovr {
+    display: grid;
+    gap: 32px;
+    padding-block: clamp(40px, 6vw, 64px) 0;
+  }
+  @media (min-width: 900px) {
+    .ovr {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+    }
+  }
+  .ovr p,
+  .ovr li {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-2);
+  }
+  .ovr ul {
+    display: grid;
+    gap: 8px;
+  }
+  .ovr .award {
+    margin-bottom: 10px;
   }
   .layout {
     display: grid;

@@ -4,7 +4,8 @@ summary: 청년 작가와 문화 소외 공간을 잇는 공공 갤러리 조성
 period: 2023 — 2024
 sort: 202312
 org: 서울대-이대 연합 예술 교육 봉사 동아리 씨앗 · 작가팀
-primary: planning
+archive: true
+primary: strategy
 roles: [전시 기획, 섭외 · MOU, 행사 기획]
 links:
   notion: https://u--x.notion.site/1ef0fb8090ab80779c88fb7acce6a1ea

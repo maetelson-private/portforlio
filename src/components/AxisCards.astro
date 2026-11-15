@@ -1,62 +1,52 @@
 ---
 import Icon from './Icon.astro';
 import Wave from './Wave.astro';
-import { disciplines, disciplineOrder, type DisciplineKey } from '../data/site';
+import { axes, axisOrder, type AxisKey } from '../data/site';
 import { url } from '../lib/url';
 
 interface Props {
-  counts: Record<DisciplineKey, number>;
+  counts: Record<AxisKey, number>;
 }
 const { counts } = Astro.props;
-const icons: Record<DisciplineKey, 'compass' | 'pen' | 'code'> = {
-  planning: 'compass',
-  design: 'pen',
-  development: 'code',
-};
-const initial: DisciplineKey = 'design';
+const initial: AxisKey = 'investment';
 ---
 
-<section class="disc" aria-label="세 가지 역할">
+<section class="axes" aria-label="다섯 가지 역량">
   <div class="container">
-    <ul class="row" data-disc>
+    <ul class="row" data-axes>
       {
-        disciplineOrder.map((key, i) => {
-          const d = disciplines[key];
+        axisOrder.map((key, i) => {
+          const a = axes[key];
           return (
-            <li class:list={['card', { 'is-active': key === initial }]} data-key={key} style={`--i:${i}`}>
-              <a class="hit" href={url(`#${key}`)} aria-label={`${d.ko} 섹션으로 이동`} />
+            <li class:list={['card', { 'is-active': key === initial }]} data-key={key}>
+              <a class="hit" href={url(`/${key}/`)} aria-label={`${a.ko} 페이지로 이동`} />
               <div class="visual" aria-hidden="true">
                 <Wave seed={i + 1} lines={48} />
               </div>
               <span class="ghost" aria-hidden="true">
-                {d.no}.
+                {a.no}.
               </span>
               <div class="body">
                 <span class="ico">
-                  <Icon name={icons[key]} size={16} />
+                  <Icon name={a.icon} size={16} />
                 </span>
                 <div class="compact">
-                  <h3>
-                    {d.ko}
-                    <br />
-                    <span>{d.en}</span>
-                  </h3>
+                  <h3>{a.ko}</h3>
+                  <p>{a.en}</p>
                 </div>
                 <div class="full">
-                  <p class="mono">
-                    {d.no} — {d.en.toUpperCase()} · {counts[key]} PROJECTS
+                  <p class="meta">
+                    {a.ko} · 프로젝트 {counts[key]}개
                   </p>
                   <h3 class="big">
-                    {d.title[0]}
+                    {a.title[0]}
                     <br />
-                    {d.title[1]}
+                    {a.title[1]}
                   </h3>
-                  <p class="desc">{d.desc}</p>
-                  <ul class="scope">
-                    {d.scope.map((s) => (
-                      <li class="tag">{s}</li>
-                    ))}
-                  </ul>
+                  <p class="desc">{a.desc}</p>
+                  <span class="go">
+                    {a.ko} 보기 <Icon name="arrow" size={15} />
+                  </span>
                 </div>
               </div>
             </li>
@@ -68,34 +58,34 @@ const initial: DisciplineKey = 'design';
 </section>
 
 <script>
-  const row = document.querySelector<HTMLElement>('[data-disc]');
+  const row = document.querySelector<HTMLElement>('[data-axes]');
   if (row) {
     const cards = Array.from(row.querySelectorAll<HTMLElement>('.card'));
     const activate = (c: HTMLElement) => cards.forEach((x) => x.classList.toggle('is-active', x === c));
     cards.forEach((c) => {
-      c.addEventListener('mouseenter', () => activate(c));
+      c.addEventListener('pointerenter', () => activate(c));
       c.addEventListener('focusin', () => activate(c));
     });
   }
 </script>
 
 <style>
-  .disc {
-    padding-block: 24px clamp(40px, 6vw, 72px);
+  .axes {
+    padding-block: 24px clamp(56px, 8vw, 96px);
   }
   .row {
     display: grid;
-    gap: 14px;
+    gap: 12px;
   }
   .card {
     position: relative;
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-lg);
-    background: linear-gradient(180deg, var(--surface), var(--bg-elev));
+    background: var(--surface);
     border: 1px solid var(--line);
     overflow: hidden;
-    transition: flex-grow 0.6s var(--ease), transform 0.6s var(--ease), border-color 0.4s, box-shadow 0.6s var(--ease);
+    transition: flex-grow 0.6s var(--ease), height 0.6s var(--ease), border-color 0.3s;
   }
   .hit {
     position: absolute;
@@ -104,22 +94,7 @@ const initial: DisciplineKey = 'design';
     border-radius: inherit;
   }
   .visual {
-    position: relative;
-    height: 120px;
-    margin: 8px 8px 0;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #070908;
-  }
-  .visual :global(svg) {
-    width: 100%;
-    height: 100%;
-  }
-  .visual::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 50%, rgba(7, 9, 8, 0.85));
+    display: none;
   }
   .ghost {
     display: none;
@@ -128,8 +103,8 @@ const initial: DisciplineKey = 'design';
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 24px;
+    gap: 14px;
+    padding: 22px;
   }
   .ico {
     display: grid;
@@ -145,14 +120,16 @@ const initial: DisciplineKey = 'design';
     display: none;
   }
   h3 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.03em;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .meta {
+    font-size: 13px;
+    color: var(--muted);
   }
   .big {
-    font-size: clamp(28px, 3.2vw, 38px);
-    line-height: 1.08;
-    margin-top: 8px;
+    font-size: clamp(24px, 2.6vw, 34px);
+    line-height: 1.15;
   }
   .desc {
     color: var(--text-2);
@@ -160,40 +137,56 @@ const initial: DisciplineKey = 'design';
     line-height: 1.7;
     max-width: 440px;
   }
-  .scope {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+  .go {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+  }
+  .go :global(svg) {
+    transition: transform 0.25s var(--ease);
+  }
+  .card:hover .go :global(svg) {
+    transform: translateX(4px);
   }
 
   /* ─── Desktop: reference-style expanding cards ─── */
-  @media (min-width: 900px) {
+  @media (min-width: 960px) {
     .row {
       display: flex;
       align-items: flex-end;
-      height: 560px;
+      height: 540px;
     }
     .card {
       flex: 1 1 0;
-      height: 400px;
+      min-width: 0;
+      height: 380px;
       cursor: pointer;
     }
     .card.is-active {
-      flex-grow: 2.2;
-      height: 560px;
+      flex-grow: 2.6;
+      height: 540px;
       border-color: var(--line-strong);
-      box-shadow: 0 0 0 1px rgba(46, 229, 157, 0.08);
     }
     .visual {
+      display: block;
       position: absolute;
       left: 8px;
       right: 8px;
-      top: 0;
-      margin: 8px 0 0;
+      top: 8px;
       height: 210px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #070908;
       opacity: 0;
       transform: translateY(-10px) scale(0.98);
-      transition: opacity 0.5s var(--ease), transform 0.6s var(--ease);
+      transition: opacity 0.45s var(--ease), transform 0.6s var(--ease);
+    }
+    .visual :global(svg) {
+      width: 100%;
+      height: 100%;
     }
     .is-active .visual {
       opacity: 1;
@@ -203,15 +196,14 @@ const initial: DisciplineKey = 'design';
     .ghost {
       display: block;
       position: absolute;
-      top: 18px;
-      left: 22px;
-      font-family: var(--font-display);
-      font-size: 84px;
-      font-weight: 400;
-      letter-spacing: -0.06em;
+      top: 16px;
+      left: 20px;
+      font-size: 72px;
+      font-weight: 300;
+      letter-spacing: -0.04em;
       line-height: 1;
       color: var(--ghost);
-      transition: opacity 0.35s;
+      transition: opacity 0.3s;
     }
     .is-active .ghost {
       opacity: 0;
@@ -219,20 +211,19 @@ const initial: DisciplineKey = 'design';
     .body {
       position: absolute;
       inset: auto 0 0 0;
-      padding: 28px;
+      padding: 24px;
     }
     .compact {
       display: block;
     }
     .compact h3 {
-      font-size: 19px;
-      line-height: 1.3;
+      font-size: 18px;
+      line-height: 1.35;
     }
-    .compact h3 span {
+    .compact p {
+      margin-top: 2px;
+      font-size: 13px;
       color: var(--muted);
-      font-size: 14px;
-      font-family: var(--font-mono);
-      letter-spacing: 0.02em;
     }
     .full {
       display: none;
@@ -243,8 +234,8 @@ const initial: DisciplineKey = 'design';
     .is-active .full {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      animation: rise 0.6s var(--ease) both;
+      gap: 12px;
+      animation: rise 0.55s var(--ease) both;
     }
     .card:not(.is-active):hover {
       border-color: var(--line-strong);
@@ -253,7 +244,7 @@ const initial: DisciplineKey = 'design';
   @keyframes rise {
     from {
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(10px);
     }
     to {
       opacity: 1;

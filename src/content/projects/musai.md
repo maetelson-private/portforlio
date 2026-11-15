@@ -4,7 +4,8 @@ summary: 악기 대여 및 시연 중개 서비스
 period: 2024 — 2025
 sort: 202412
 org: 창업 프로젝트
-primary: planning
+primary: strategy
+also: [investment, design]
 roles: [PM / PO, 콘텐츠 디자인, MOU · IR, MVP]
 stack: [Figma, No-code, DB Design]
 links:

@@ -5,6 +5,7 @@ period: 2026.03
 sort: 202603.2
 org: 개인 프로젝트
 primary: development
+also: [design]
 roles: [디자인, FE]
 stack: [TypeScript, Node Editor, Figma]
 links:

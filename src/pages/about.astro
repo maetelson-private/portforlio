@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import Experience from '../components/Experience.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Contact from '../components/Contact.astro';
+import { profile } from '../data/site';
+import { getProjects } from '../lib/projects';
+
+const archived = (await getProjects()).filter((p) => p.data.archive);
+---
+
+<Base title="About — 손하늘 포트폴리오" description={profile.intro}>
+  <header class="head grid-bg">
+    <div class="container">
+      <h1>{profile.name}<span class="text-green">.</span></h1>
+      <p class="lead">{profile.tagline}</p>
+      <p class="intro">{profile.intro}</p>
+      <p class="school">{profile.school}</p>
+    </div>
+  </header>
+
+  <Experience />
+
+  {
+    archived.length > 0 && (
+      <section class="container block" aria-labelledby="etc-title">
+        <h2 id="etc-title" class="block-title">그 밖의 활동</h2>
+        <ul class="list">
+          {archived.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <Contact />
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(56px, 9vw, 110px) clamp(32px, 5vw, 56px);
+  }
+  h1 {
+    font-size: clamp(44px, 7vw, 88px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+  .lead {
+    margin-top: 12px;
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 600;
+    color: var(--green);
+  }
+  .intro {
+    margin-top: 24px;
+    max-width: 62ch;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text-2);
+  }
+  .school {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .block {
+    padding-top: clamp(16px, 3vw, 32px);
+  }
+  .block-title {
+    padding-bottom: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .list {
+    border-top: 1px solid var(--line-strong);
+  }
+</style>

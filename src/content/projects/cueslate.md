@@ -5,6 +5,7 @@ period: 2026.06
 sort: 202606
 org: 개인 프로젝트
 primary: development
+also: [strategy]
 roles: [기획, FE, BE]
 featured: true
 highlight: { value: 'Live', label: 'cueslate.org에서 운영 중인 풀스택 서비스' }

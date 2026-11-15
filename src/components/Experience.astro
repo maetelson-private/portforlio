@@ -1,15 +1,12 @@
 ---
-import { experience, toolkit, profile } from '../data/site';
+import { experience, toolkit } from '../data/site';
 ---
 
 <section class="section" id="experience" aria-labelledby="exp-title">
   <div class="container">
     <div class="sec-head reveal">
-      <div>
-        <span class="eyebrow sec-num">04 — Experience</span>
-        <h2 id="exp-title">함께 만든 곳들<span class="text-green">.</span></h2>
-      </div>
-      <p>{profile.school}</p>
+      <h2 id="exp-title">함께 만든 곳들<span class="text-green">.</span></h2>
+      <p>학회·동아리·창업팀에서 기획, 디자인, 개발, 운영을 번갈아 맡으며 일해 왔습니다.</p>
     </div>
 
     <div class="cols">
@@ -17,7 +14,7 @@ import { experience, toolkit, profile } from '../data/site';
         {
           experience.map((e) => (
             <li>
-              <span class="mono period">{e.period}</span>
+              <span class="period">{e.period}</span>
               <div>
                 <p class="title">{e.title}</p>
                 <p class="role">{e.role}</p>
@@ -28,7 +25,7 @@ import { experience, toolkit, profile } from '../data/site';
       </ol>
 
       <div class="tools reveal">
-        <p class="eyebrow">Toolkit</p>
+        <h3 class="rule-title">Toolkit</h3>
         {
           toolkit.map((g) => (
             <div class="group">
@@ -77,7 +74,10 @@ import { experience, toolkit, profile } from '../data/site';
     }
   }
   .period {
-    padding-top: 3px;
+    padding-top: 2px;
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
   }
   .title {
     font-weight: 600;

@@ -5,8 +5,11 @@ period: 2025.07 — 진행 중
 sort: 202507.8
 org: 창업팀 · UNIS 아이디어창업프로젝트 · ORDA Come-up
 primary: design
+also: [strategy, investment, development]
 roles: [브랜딩, UI/UX, 콘텐츠, 기획, FE]
 award: 예비창업패키지 Pre-incubating Y-STAR 선정 · UNIS 최우수상
+featured: true
+highlight: { value: '36,407', label: '협찬품 14,000여 개를 전달해 만든 노출 인원' }
 stack: [Figma, Branding, Instagram Content, React]
 links:
   notion: https://u--x.notion.site/1ed0fb8090ab807fb1d5c4bfb9f87405

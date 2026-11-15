@@ -4,7 +4,7 @@ summary: 2030 연인들을 위한 데이트 코스 추천·기록 서비스
 period: 2025.08 — 2026.02
 sort: 202509
 org: KUSITMS 32기 밋업 프로젝트 · 8인 팀
-primary: planning
+primary: strategy
 roles: [기획 리드, 리서치, BM · GTM]
 stack: [User Research, IA, BM, GTM, TAM-SAM-SOM]
 links:

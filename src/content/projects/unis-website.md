@@ -5,6 +5,7 @@ period: 2025.07 — 2025.08
 sort: 202507.2
 org: UNIS 웹개발 TF
 primary: development
+also: [design]
 roles: [기획, 디자인, FE]
 stack: [React, TypeScript, Vite, Tailwind CSS, React Router, shadcn/ui]
 links:

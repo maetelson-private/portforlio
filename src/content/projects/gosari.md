@@ -4,7 +4,8 @@ summary: 노인 특화 공간 중개 서비스 BM 기획
 period: 2024.07 — 2024.08
 sort: 202407
 org: 현대차 정몽구 재단 FutuRES College 3기
-primary: planning
+primary: strategy
+also: [investment]
 roles: [기획, BM 설계, IR]
 links:
   notion: https://u--x.notion.site/1ef0fb8090ab80f9b23ce1d2d08c51be

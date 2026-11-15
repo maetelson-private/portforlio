@@ -2,7 +2,8 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const discipline = z.enum(['planning', 'design', 'development']);
+export const axisKeys = ['strategy', 'investment', 'data', 'design', 'development'] as const;
+const axis = z.enum(axisKeys);
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
@@ -15,12 +16,11 @@ const projects = defineCollection({
     /** 정렬용 (최신순) */
     sort: z.number(),
     org: z.string().optional(),
-    primary: discipline,
+    /** 이 프로젝트가 대표로 속하는 축 하나 */
+    primary: axis,
+    /** 함께 쓰인 다른 역량 축. 해당 축 페이지의 '관련 프로젝트'에 나온다 */
+    also: z.array(axis).default([]),
     roles: z.array(z.string()),
-    /** 기획/디자인/개발 비중(합 100). 여러 역할을 맡은 프로젝트에만 */
-    roleSplit: z
-      .object({ planning: z.number(), design: z.number(), development: z.number() })
-      .optional(),
     featured: z.boolean().default(false),
     award: z.string().optional(),
     /** Featured 카드에 크게 보여줄 핵심 수치 */
@@ -36,6 +36,8 @@ const projects = defineCollection({
         extra: z.array(z.object({ label: z.string(), href: z.string().url() })).optional(),
       })
       .default({}),
+    /** 축 페이지 대신 About의 '그 밖의 활동'에만 나온다 */
+    archive: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),
 });

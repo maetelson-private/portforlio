@@ -4,7 +4,8 @@ summary: Z세대의 문서 작업 전 여정에서 1순위가 되기 위한 Lock
 period: 2026.05 — 2026.06
 sort: 202605
 org: 이화여대 경영전략학회 DECK × 폴라리스오피스 산학협력 · 5인 팀
-primary: planning
+primary: strategy
+also: [data, design, development]
 roles: [PM, 서비스 기획, 디자인, FE]
 featured: true
 award: 폴라리스오피스 산학협력 프로젝트 대상(1위)

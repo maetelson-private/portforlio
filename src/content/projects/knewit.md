@@ -5,6 +5,7 @@ period: 2026.03 — 진행 중
 sort: 202603
 org: 창업팀 KNEWIT · 대표
 primary: development
+also: [strategy, design, data]
 roles: [대표, 기획, 디자인, FE]
 featured: true
 award: ICT/SW 여성창업공모전 우수상 · 모두의창업 2차 진출

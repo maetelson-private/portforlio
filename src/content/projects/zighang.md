@@ -4,7 +4,8 @@ summary: 구직 플랫폼 직행의 회원가입 유도 기능과 온보딩을 �
 period: 2025.08 — 2025.09
 sort: 202508
 org: 기업 연계 프로젝트 (w. 직행)
-primary: planning
+primary: strategy
+also: [data]
 roles: [PM, 서비스 기획]
 award: 기업 프로젝트 최종 발표회 우수상(2위)
 stack: [Notion, FigJam, Figma, Maze, React, Spring Boot, Clova OCR, GPT API]

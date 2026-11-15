@@ -5,6 +5,7 @@ period: 2025.07 (3일 해커톤)
 sort: 202507.5
 org: 이화여대 IT실전창업학회 UNIS U-KATHON
 primary: design
+also: [strategy]
 roles: [UI/UX, BI, IA · 유저 플로우, 기획]
 award: UNIS U-KATHON 우수상
 stack: [Figma, IA, User Flow, Branding]

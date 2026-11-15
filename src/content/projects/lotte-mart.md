@@ -4,7 +4,8 @@ summary: 3040 유자녀 여성을 위한 식생활 솔루션 기반 파일럿 �
 period: 2026.04 — 2026.05
 sort: 202604
 org: 이화여대 경영전략학회 DECK × 롯데마트 산학협력 · 5인 팀
-primary: planning
+primary: strategy
+also: [data, design]
 roles: [PM, 서비스 기획, 디자인]
 award: 롯데마트 산학협력 프로젝트 대상(1위)
 stack: [Google Forms, IDI, Case Study, PowerPoint]
