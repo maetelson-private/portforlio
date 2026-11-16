@@ -1,251 +1,36 @@
 ---
-import { axes, axisOrder, profile, type AxisKey } from '../data/site';
-import { url } from '../lib/url';
-
-interface Props {
-  counts: Record<AxisKey, number>;
-  total: number;
-}
-const { counts, total } = Astro.props;
+import Ribbon3D from './Ribbon3D.astro';
+import { profile } from '../data/site';
 ---
 
-<section class="hero" aria-labelledby="hero-title" data-hero>
-  <div class="stage container" data-stage>
-    <canvas class="strands" aria-hidden="true"></canvas>
-
-    <ul class="fields" aria-label="Fields">
-      {
-        axisOrder.map((k, i) => (
-          <li>
-            <a class="field" href={url(`/?field=${k}#work`)} data-field={k} data-i={i}>
-              <span class="label">{axes[k].label}</span>
-              <span class="n">{counts[k]}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <span class="cv cv-m" data-cv aria-hidden="true"></span>
-
-    <div class="who">
-      <h1 id="hero-title">{profile.name}</h1>
-      <p class="tag">Connecting the dots, from strategy to code<span class="dot">.</span></p>
-      <p class="intro">{profile.heroIntro}</p>
-      <span class="cv cv-d" data-cv aria-hidden="true"></span>
-    </div>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <h1 id="hero-title">{profile.headline}<span class="dot">.</span></h1>
+    <p class="intro">{profile.intro}</p>
   </div>
-
-  <div class="container meta">
-    <span>Ewha Womans University · Computer Science · Seoul</span>
-    <a href={url('/#work')}>{total} projects <span aria-hidden="true">↓</span></a>
-  </div>
+  <Ribbon3D variant="hero" />
 </section>
-
-<script>
-  import type { StrandsHandle } from '../lib/strands';
-
-  const stage = document.querySelector<HTMLElement>('[data-stage]');
-  const canvas = stage?.querySelector<HTMLCanvasElement>('canvas.strands');
-  const labels = Array.from(document.querySelectorAll<HTMLElement>('[data-hero] .field'));
-  if (stage && canvas && labels.length) {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // 화면 크기에 따라 보이는 합류점 표시(데스크톱/모바일)를 고른다
-    const convergeEl = () =>
-      Array.from(document.querySelectorAll<HTMLElement>('[data-cv]')).find((el) => el.offsetParent !== null) ??
-      labels[labels.length - 1];
-
-    let handle: StrandsHandle | null = null;
-    let pendingHi: number | null = null;
-    const highlight = (i: number | null) => {
-      pendingHi = i;
-      handle?.highlight(i);
-    };
-
-    labels.forEach((el) => {
-      const i = Number(el.dataset.i);
-      el.addEventListener('pointerenter', () => highlight(i));
-      el.addEventListener('pointerleave', () => highlight(null));
-      el.addEventListener('focus', () => highlight(i));
-      el.addEventListener('blur', () => highlight(null));
-      // 같은 페이지의 Work 필터를 누르고 목록으로 내려간다
-      el.addEventListener('click', (e) => {
-        const btn = document.querySelector<HTMLButtonElement>(`[data-filter="${el.dataset.field}"]`);
-        if (!btn) return;
-        e.preventDefault();
-        btn.click();
-        document.getElementById('work')?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
-      });
-    });
-
-    // Work 목록에서 오는 분야 신호(필터, 행 호버)도 해당 갈래를 밝힌다
-    const order = labels.map((el) => el.dataset.field);
-    document.addEventListener('ribbon:preset', (e) => {
-      const f = (e as CustomEvent<string>).detail;
-      const i = order.indexOf(f);
-      highlight(i >= 0 ? i : null);
-    });
-
-    import('../lib/strands')
-      .then(({ mountStrands }) => {
-        handle = mountStrands(stage, canvas, { labels, converge: convergeEl(), reducedMotion });
-        if (handle) {
-          stage.classList.add('is-3d');
-          handle.highlight(pendingHi);
-        }
-      })
-      .catch(() => {
-        /* 3D 없이도 라벨과 이름은 그대로 보인다 */
-      });
-  }
-</script>
 
 <style>
   .hero {
-    display: grid;
-    grid-template-rows: 1fr auto;
-    min-height: calc(100svh - 68px);
-  }
-  .stage {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    align-items: center;
-    gap: 48px;
-    padding-block: 48px;
-  }
-  .strands {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .stage.is-3d .strands {
-    opacity: 1;
-  }
-
-  /* 다섯 분야 라벨: 각 갈래의 시작점 */
-  .fields {
-    position: relative;
-    display: grid;
-    gap: clamp(14px, 3.2vh, 30px);
-    justify-items: start;
-  }
-  .field {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 10px;
-    min-height: 44px;
-    align-items: center;
-    padding-right: 6px;
-    font-size: clamp(16px, 1.45vw, 20px);
-    font-weight: 600;
-    color: var(--text-2);
-    transition: color 0.25s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .field .n {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
-  }
-  .field:hover,
-  .field:focus-visible {
-    color: var(--green);
-    transform: translateX(4px);
-  }
-
-  /* 이름 블록: 다섯 갈래가 이 아래 왼쪽에서 모인다 */
-  .who {
-    position: relative;
-    z-index: 1;
-    padding-bottom: 120px;
+    padding-top: clamp(64px, 10vw, 128px);
   }
   h1 {
-    font-size: clamp(52px, 8.4vw, 132px);
+    max-width: 17ch;
+    font-size: clamp(40px, 6.4vw, 84px);
     font-weight: 600;
-    line-height: 1;
+    line-height: 1.12;
     letter-spacing: -0.035em;
-  }
-  .tag {
-    margin-top: 18px;
-    font-size: clamp(18px, 1.9vw, 26px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text);
+    text-wrap: balance;
   }
   .dot {
     color: var(--green);
   }
   .intro {
-    margin-top: 16px;
-    max-width: 50ch;
-    font-size: 15px;
+    margin-top: 24px;
+    max-width: 58ch;
+    font-size: clamp(16px, 1.5vw, 18px);
     line-height: 1.75;
     color: var(--text-2);
-  }
-  .cv {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-  }
-  .cv-d {
-    left: -40px;
-    bottom: 52px;
-  }
-  .cv-m {
-    display: none;
-  }
-
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px 24px;
-    padding-block: 18px 22px;
-    font-size: 13px;
-    color: var(--muted);
-  }
-  .meta a {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 32px;
-    color: var(--text-2);
-    transition: color 0.2s;
-  }
-  .meta a:hover {
-    color: var(--green);
-  }
-
-  /* 모바일: 라벨 → (합류점) → 이름 순서로 세운다 */
-  @media (max-width: 860px) {
-    .hero {
-      min-height: auto;
-    }
-    .stage {
-      grid-template-columns: 1fr;
-      gap: 0;
-      padding-block: 32px 8px;
-    }
-    .fields {
-      gap: 2px;
-    }
-    .cv-m {
-      display: block;
-      position: relative;
-      justify-self: end;
-      width: 1px;
-      height: 96px;
-      margin-right: 18%;
-    }
-    .cv-d {
-      display: none;
-    }
-    .who {
-      padding-bottom: 24px;
-    }
   }
 </style>

@@ -3,18 +3,13 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import WorkIndex from '../components/WorkIndex.astro';
 import Contact from '../components/Contact.astro';
-import { axisOrder, type AxisKey } from '../data/site';
 import { getProjects } from '../lib/projects';
 
 const projects = (await getProjects()).filter((p) => !p.data.archive);
-// 분야별 개수: 대표 분야이거나 함께 쓰인 분야면 센다 (Work 필터 개수와 같다)
-const counts = Object.fromEntries(
-  axisOrder.map((k) => [k, projects.filter((p) => p.data.primary === k || p.data.also.includes(k)).length]),
-) as Record<AxisKey, number>;
 ---
 
 <Base>
-  <Hero counts={counts} total={projects.length} />
+  <Hero />
   <WorkIndex projects={projects} />
   <Contact />
 </Base>
