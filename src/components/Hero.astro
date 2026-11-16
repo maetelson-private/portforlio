@@ -31,6 +31,7 @@ const parts: { text: string; em: boolean }[] = [];
 ---
 
 <section class="hero" aria-labelledby="hero-title">
+  <canvas class="field" aria-hidden="true"></canvas>
   <div class="container">
     <h1 id="hero-title">
       <span class="big" aria-hidden="true" data-fit>Connecting the dots</span>
@@ -68,6 +69,110 @@ const parts: { text: string; em: boolean }[] = [];
 </section>
 
 <script>
+  // 배경 점 격자 위에 초록 점이 천천히 번졌다 사라지고, 커서 주변 점이 은은하게 켜진다
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const canvas = hero?.querySelector<HTMLCanvasElement>('.field');
+  const ctx = canvas?.getContext('2d');
+  if (hero && canvas && ctx) {
+    const GAP = 28;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w = 0, h = 0, x0 = 0, y0 = 0, dpr = 1;
+    let mx = -9999, my = -9999, glow = 0;
+    let visible = true, raf = 0, last = 0;
+    const t0 = performance.now();
+
+    const resize = () => {
+      const r = hero.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = r.width;
+      h = r.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // body 배경 점과 같은 자리에 찍는다 (가로 가운데 정렬, 세로 14px부터 28px 간격)
+      const left = r.left + scrollX;
+      const top = r.top + scrollY;
+      const cx = document.body.clientWidth / 2;
+      x0 = (((cx - left) % GAP) + GAP) % GAP;
+      y0 = (((GAP / 2 - top) % GAP) + GAP) % GAP;
+    };
+
+    const draw = (now: number) => {
+      const t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, w, h);
+      for (let y = y0; y < h; y += GAP) {
+        for (let x = x0; x < w; x += GAP) {
+          // 느리게 흐르는 물결 세 개를 겹쳐서 군데군데 밝은 자리를 만든다
+          const f =
+            Math.sin(x * 0.0055 + t * 0.16) +
+            Math.sin(y * 0.0075 - t * 0.12 + 1.3) +
+            Math.sin((x - y) * 0.0035 + t * 0.09 + 2.1);
+          let a = Math.max(0, (f - 1.1) / 1.9);
+          a = a * a * 0.75;
+          if (glow > 0) {
+            const dx = x - mx, dy = y - my;
+            a += Math.exp(-(dx * dx + dy * dy) / 22000) * 0.9 * glow;
+          }
+          if (a < 0.02) continue;
+          a = Math.min(a, 0.9);
+          ctx.globalAlpha = a;
+          ctx.beginPath();
+          ctx.arc(x, y, 1 + a * 0.9, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    const loop = (now: number) => {
+      raf = 0;
+      if (!visible || document.hidden) return;
+      if (now - last > 33) {
+        last = now;
+        glow += ((mx > -9000 ? 1 : 0) - glow) * 0.12;
+        draw(now);
+      }
+      raf = requestAnimationFrame(loop);
+    };
+    const start = () => {
+      if (!reduce && !raf) raf = requestAnimationFrame(loop);
+    };
+
+    const paint = () => {
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--green').trim() || '#2ee59d';
+    };
+    resize();
+    paint();
+    draw(t0 + 4000);
+    start();
+
+    window.addEventListener('resize', () => {
+      resize();
+      paint();
+      if (reduce) draw(t0 + 4000);
+    });
+    document.fonts?.ready.then(() => {
+      resize();
+      paint();
+      if (reduce) draw(t0 + 4000);
+    });
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) start();
+    }).observe(hero);
+    document.addEventListener('visibilitychange', start);
+    if (matchMedia('(hover: hover)').matches && !reduce) {
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        mx = e.clientX - r.left;
+        my = e.clientY - r.top;
+      });
+      hero.addEventListener('pointerleave', () => {
+        mx = my = -9999;
+      });
+    }
+  }
+
   // 큰 제목을 콘텐츠 폭에 딱 맞춘다 (폰트 로딩·창 크기 변화 후 다시 계산)
   const big = document.querySelector<HTMLElement>('.hero [data-fit]');
   if (big) {
@@ -114,7 +219,19 @@ const parts: { text: string; em: boolean }[] = [];
 <style>
   .hero {
     position: relative;
+    isolation: isolate;
     padding-block: clamp(56px, 10vw, 128px) clamp(64px, 9vw, 120px);
+  }
+
+  .field {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* 아래로 갈수록 흐려져서 Work 섹션과 자연스럽게 이어진다 */
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
   }
 
   /* 화면 폭을 채우는 한 줄 제목 */
