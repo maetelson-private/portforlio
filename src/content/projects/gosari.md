@@ -5,7 +5,6 @@ period: 2024.07 ~ 2024.08
 sort: 202407
 org: Hyundai Motor Chung Mong-Koo Foundation FutuRES College, cohort 3
 primary: strategy
-also: [investment]
 roles: [Planning, BM design, IR]
 links:
   notion: https://u--x.notion.site/1ef0fb8090ab80f9b23ce1d2d08c51be

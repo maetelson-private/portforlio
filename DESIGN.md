@@ -4,7 +4,7 @@
 
 ## World
 
-- 거의 검정 바탕 + 초록 한 가지. 초록은 **활성 상태**(선택된 필터, 호버한 행 제목, 현재 메뉴 밑줄, 링크 호버)와 3D 리본에만 쓴다.
+- 거의 검정 바탕 + 초록 한 가지. 마침표 같은 문장부호에 색을 넣지 않는다. 초록은 **활성 상태**(선택된 필터, 호버한 행 제목, 현재 메뉴 밑줄, 링크 호버)와 3D 리본에만 쓴다.
 - 서체는 Pretendard 하나. 코드(`apps/fe` 등)만 고정폭.
 - 카드, 그림자, 아이콘 타일, 격자 배경, 그라데이션 글자, 제목 위 라벨, 큰 숫자 강조는 쓰지 않는다.
 - 구획은 1px 선으로 나눈다.
@@ -25,7 +25,7 @@
 
 ## Structure
 
-- `/` 홈: 큰 제목 + 소개(문구 그대로) 뒤로 **화면 오른쪽 밖으로 잘린 큰 구**(어두운 구, 초록 테두리 빛) → **Work 목록 하나**(고정 바: 미니 리본 + 현재 분야 + 필터) → Contact. 레퍼런스: p5aholic.me (Keita Yamada).
+- `/` 홈: **타이포그래피 히어로**(레퍼런스: lucaslima.design). 콘텐츠 폭을 꽉 채우는 대문자 한 줄 CONNECTING THE DOTS(JS로 폭에 맞춤), 아래 왼쪽 이메일 복사 버튼·오른쪽 FROM STRATEGY TO CODE, 회색 소개 문단에서 다섯 분야 이름만 밝게, 오른쪽 FIELDS 2열 목록(필터로 이동). 배경은 회색 점 격자. 3D 없음 → **Work 목록 하나**(고정 바: 미니 리본 + 현재 분야 + 필터) → Contact.
 - 분야는 별도 페이지가 아니라 필터. `?field=strategy` 등 주소로 공유된다. 예전 `/strategy/` 주소는 해당 필터로 리다이렉트.
 - `/projects/[slug]/`: Work / 분야 경로 → 프로젝트 이름(초록 라벨) → 요약 한 문장(큰 제목) → Live·GitHub·Notion 링크 → 왼쪽 고정 정보(Client, Period, Role, Fields, Recognition, Stack) + 오른쪽 본문. 본문 섹션은 01·02·03 번호, Approach는 번호 단계, Outcome은 한 줄씩 행. 끝에 다음 프로젝트(요약 포함)와 All work (N). 레퍼런스: Linear 고객 사례, Bain 사례, Pentagram 프로젝트 페이지.
 - `/about/`: 소개, Experience, Toolkit, Other activities.

@@ -5,7 +5,6 @@ period: 2025
 sort: 202511
 org: UNIS (Ewha startup society)
 primary: strategy
-also: [investment]
 roles: [Planning]
 award: Grand Prize, UNIS Demo Day · Top Prize, Mock Investment Competition
 links:

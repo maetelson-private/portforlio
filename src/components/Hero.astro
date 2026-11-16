@@ -1,113 +1,265 @@
 ---
-import { profile } from '../data/site';
+import { axes, axisOrder, profile } from '../data/site';
+import { url } from '../lib/url';
+
+// 소개 문장에서 다섯 분야 이름만 밝게 강조한다 (문구 자체는 그대로)
+const emphasis = ['business strategy', 'investment due diligence', 'data analysis', 'design', 'development'];
+const left = [...emphasis]; // 각 단어는 처음 한 번만 강조
+const parts: { text: string; em: boolean }[] = [];
+{
+  let rest = profile.intro;
+  while (rest.length) {
+    let hit = -1;
+    let word = '';
+    for (const w of left) {
+      const i = rest.indexOf(w);
+      if (i !== -1 && (hit === -1 || i < hit)) {
+        hit = i;
+        word = w;
+      }
+    }
+    if (hit === -1) {
+      parts.push({ text: rest, em: false });
+      break;
+    }
+    if (hit > 0) parts.push({ text: rest.slice(0, hit), em: false });
+    parts.push({ text: word, em: true });
+    left.splice(left.indexOf(word), 1);
+    rest = rest.slice(hit + word.length);
+  }
+}
 ---
 
-<section class="hero" aria-labelledby="hero-title" data-hero>
-  <!-- WebGL이 없을 때 보이는 CSS 구. 3D가 뜨면 사라진다 -->
-  <div class="orb-fallback" aria-hidden="true"></div>
-  <canvas class="orb" aria-hidden="true"></canvas>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <h1 id="hero-title">
+      <span class="big" aria-hidden="true" data-fit>Connecting the dots</span>
+      <span class="sub">Connecting the dots, from strategy to code</span>
+    </h1>
 
-  <div class="container copy">
-    <h1 id="hero-title">{profile.headline}<span class="dot">.</span></h1>
-    <p class="intro">{profile.intro}</p>
+    <div class="under">
+      <button class="mail" type="button" data-copy={profile.email} aria-label={`Copy email address ${profile.email}`}>
+        <span class="mail-text">{profile.email}</span>
+        <span class="copied" aria-hidden="true">Copied</span>
+      </button>
+      <p class="sub-right" aria-hidden="true">From strategy<br />to code</p>
+    </div>
+
+    <div class="body">
+      <p class="intro">
+        {parts.map((p) => (p.em ? <strong>{p.text}</strong> : p.text))}
+      </p>
+      <div class="fields">
+        <p class="fields-label">Fields</p>
+        <ul>
+          {
+            axisOrder.map((k) => (
+              <li>
+                <a href={url(`/?field=${k}#work`)} data-field={k}>
+                  {axes[k].label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <script>
-  import type { OrbPreset, OrbHandle } from '../lib/orb';
-
-  const hero = document.querySelector<HTMLElement>('[data-hero]');
-  const canvas = hero?.querySelector<HTMLCanvasElement>('canvas.orb');
-  if (hero && canvas) {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let handle: OrbHandle | null = null;
-    let pending: OrbPreset = 'all';
-    // Work 목록의 분야 신호(필터·행 호버)에 따라 빛의 방향이 바뀐다
-    document.addEventListener('ribbon:preset', (e) => {
-      pending = (e as CustomEvent<OrbPreset>).detail;
-      handle?.setPreset(pending);
-    });
-    import('../lib/orb')
-      .then(({ mountOrb }) => {
-        handle = mountOrb(hero, canvas, { reducedMotion });
-        if (handle) {
-          hero.classList.add('is-3d');
-          handle.setPreset(pending);
-        }
-      })
-      .catch(() => {
-        /* CSS 구가 그대로 남는다 */
-      });
+  // 큰 제목을 콘텐츠 폭에 딱 맞춘다 (폰트 로딩·창 크기 변화 후 다시 계산)
+  const big = document.querySelector<HTMLElement>('.hero [data-fit]');
+  if (big) {
+    const fit = () => {
+      if (window.innerWidth < 900) {
+        big.style.fontSize = '';
+        return;
+      }
+      const box = big.parentElement!.getBoundingClientRect().width;
+      big.style.fontSize = '100px';
+      const w = big.scrollWidth;
+      if (w > 0) big.style.fontSize = `${Math.floor((100 * box) / w * 10) / 10}px`;
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    window.addEventListener('resize', fit);
   }
+
+  // 이메일을 누르면 복사하고 잠깐 "Copied"를 보여준다
+  document.querySelectorAll<HTMLButtonElement>('.hero [data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        btn.classList.add('is-copied');
+        setTimeout(() => btn.classList.remove('is-copied'), 1600);
+      } catch {
+        location.href = `mailto:${btn.dataset.copy}`;
+      }
+    });
+  });
+  // Fields 링크는 같은 페이지의 Work 필터를 누르고 목록으로 내려간다
+  document.querySelectorAll<HTMLAnchorElement>('.hero [data-field]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const btn = document.querySelector<HTMLButtonElement>(`[data-filter="${a.dataset.field}"]`);
+      if (!btn) return;
+      e.preventDefault();
+      btn.click();
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.getElementById('work')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
 </script>
 
 <style>
   .hero {
     position: relative;
-    display: flex;
-    align-items: center;
-    min-height: calc(100svh - 68px);
-    overflow: hidden;
-  }
-  .orb {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .hero.is-3d .orb {
-    opacity: 1;
-  }
-  .orb-fallback {
-    position: absolute;
-    top: 50%;
-    left: 86%;
-    width: max(124svh, 68vw);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle at 30% 30%, #262c29 0%, #161a18 45%, #0d0f0e 70%);
-    box-shadow: inset 18px 18px 60px -30px rgba(46, 229, 157, 0.45);
-    transition: opacity 0.8s;
-  }
-  .hero.is-3d .orb-fallback {
-    opacity: 0;
-  }
-  .copy {
-    position: relative;
-    z-index: 1;
-    padding-block: clamp(48px, 8vw, 96px);
-  }
-  h1 {
-    max-width: 17ch;
-    font-size: clamp(40px, 6.4vw, 84px);
-    font-weight: 600;
-    line-height: 1.12;
-    letter-spacing: -0.035em;
-    text-wrap: balance;
-  }
-  .dot {
-    color: var(--green);
-  }
-  .intro {
-    margin-top: 24px;
-    max-width: 50ch;
-    font-size: clamp(16px, 1.5vw, 18px);
-    line-height: 1.75;
-    color: var(--text-2);
+    padding-block: clamp(56px, 10vw, 128px) clamp(64px, 9vw, 120px);
+    /* 회색 점 격자 (레퍼런스: lucaslima.design) */
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.11) 1px, transparent 1.2px);
+    background-size: 28px 28px;
+    background-position: center top;
   }
 
-  @media (max-width: 760px) {
-    .hero {
-      align-items: flex-start;
-      min-height: 92svh;
+  /* 화면 폭을 채우는 한 줄 제목 */
+  h1 {
+    margin: 0;
+  }
+  .big {
+    display: block;
+    font-size: clamp(40px, 7.4vw, 124px);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+  @media (min-width: 900px) {
+    .big {
+      width: max-content;
+      white-space: nowrap;
     }
-    .orb-fallback {
-      top: 98%;
-      left: 62%;
-      width: 190vw;
+  }
+  /* 문장 뒷부분은 스크린리더용으로만 h1 안에 두고, 화면에서는 오른쪽 작은 글씨로 */
+  .sub {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .under {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-top: 18px;
+  }
+  .mail {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: -12px;
+    font-size: 14px;
+    color: var(--text-2);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+  .mail:hover {
+    color: var(--text);
+  }
+  .copied {
+    position: absolute;
+    left: calc(100% + 10px);
+    font-size: 12px;
+    color: var(--muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mail.is-copied .copied {
+    opacity: 1;
+    transform: none;
+  }
+  .sub-right {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    text-align: right;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .body {
+    display: grid;
+    gap: 40px;
+    margin-top: clamp(56px, 8vw, 104px);
+  }
+  @media (min-width: 900px) {
+    .body {
+      grid-template-columns: minmax(0, 1fr) 320px;
+      align-items: end;
+      gap: 80px;
+    }
+  }
+  .intro {
+    max-width: 26em;
+    font-size: clamp(22px, 2.5vw, 34px);
+    font-weight: 400;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
+    color: var(--muted);
+  }
+  .intro strong {
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  .fields-label {
+    padding-bottom: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .fields ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--line-strong);
+  }
+  .fields li {
+    border-bottom: 1px solid var(--line);
+  }
+  .fields a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 14px;
+    color: var(--text-2);
+    transition: color 0.2s, padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fields a:hover,
+  .fields a:focus-visible {
+    color: var(--text);
+    padding-left: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .under {
+      flex-direction: column-reverse;
+      gap: 6px;
+    }
+    .sub-right {
+      text-align: left;
+    }
+    .mail {
+      margin-top: 0;
     }
   }
 </style>

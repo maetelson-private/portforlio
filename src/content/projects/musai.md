@@ -5,7 +5,7 @@ period: 2024 ~ 2025
 sort: 202412
 org: Startup project
 primary: strategy
-also: [investment, design]
+also: [design]
 roles: [PM / PO, Content design, MOU · IR, MVP]
 stack: [Figma, No-code, DB Design]
 links:

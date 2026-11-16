@@ -5,7 +5,7 @@ period: 2025.07 ~ Present
 sort: 202507.8
 org: Startup team · UNIS Idea Startup Project · ORDA Come-up
 primary: design
-also: [strategy, investment, development]
+also: [strategy]
 roles: [Branding, UI/UX, Content, Planning, FE]
 award: Selected for Pre-Startup Package Pre-incubating Y-STAR · UNIS Top Prize
 featured: true
