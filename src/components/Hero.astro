@@ -1,19 +1,84 @@
 ---
-import Ribbon3D from './Ribbon3D.astro';
 import { profile } from '../data/site';
 ---
 
-<section class="hero" aria-labelledby="hero-title">
-  <div class="container">
+<section class="hero" aria-labelledby="hero-title" data-hero>
+  <!-- WebGL이 없을 때 보이는 CSS 구. 3D가 뜨면 사라진다 -->
+  <div class="orb-fallback" aria-hidden="true"></div>
+  <canvas class="orb" aria-hidden="true"></canvas>
+
+  <div class="container copy">
     <h1 id="hero-title">{profile.headline}<span class="dot">.</span></h1>
     <p class="intro">{profile.intro}</p>
   </div>
-  <Ribbon3D variant="hero" />
 </section>
+
+<script>
+  import type { OrbPreset, OrbHandle } from '../lib/orb';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const canvas = hero?.querySelector<HTMLCanvasElement>('canvas.orb');
+  if (hero && canvas) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let handle: OrbHandle | null = null;
+    let pending: OrbPreset = 'all';
+    // Work 목록의 분야 신호(필터·행 호버)에 따라 빛의 방향이 바뀐다
+    document.addEventListener('ribbon:preset', (e) => {
+      pending = (e as CustomEvent<OrbPreset>).detail;
+      handle?.setPreset(pending);
+    });
+    import('../lib/orb')
+      .then(({ mountOrb }) => {
+        handle = mountOrb(hero, canvas, { reducedMotion });
+        if (handle) {
+          hero.classList.add('is-3d');
+          handle.setPreset(pending);
+        }
+      })
+      .catch(() => {
+        /* CSS 구가 그대로 남는다 */
+      });
+  }
+</script>
 
 <style>
   .hero {
-    padding-top: clamp(64px, 10vw, 128px);
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: calc(100svh - 68px);
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero.is-3d .orb {
+    opacity: 1;
+  }
+  .orb-fallback {
+    position: absolute;
+    top: 50%;
+    left: 86%;
+    width: max(124svh, 68vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 30% 30%, #262c29 0%, #161a18 45%, #0d0f0e 70%);
+    box-shadow: inset 18px 18px 60px -30px rgba(46, 229, 157, 0.45);
+    transition: opacity 0.8s;
+  }
+  .hero.is-3d .orb-fallback {
+    opacity: 0;
+  }
+  .copy {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(48px, 8vw, 96px);
   }
   h1 {
     max-width: 17ch;
@@ -28,9 +93,21 @@ import { profile } from '../data/site';
   }
   .intro {
     margin-top: 24px;
-    max-width: 58ch;
+    max-width: 50ch;
     font-size: clamp(16px, 1.5vw, 18px);
     line-height: 1.75;
     color: var(--text-2);
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      align-items: flex-start;
+      min-height: 92svh;
+    }
+    .orb-fallback {
+      top: 98%;
+      left: 62%;
+      width: 190vw;
+    }
   }
 </style>

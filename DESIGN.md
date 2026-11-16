@@ -25,7 +25,7 @@
 
 ## Structure
 
-- `/` 홈: 제목 + 소개 한 줄 → 3D 리본 → **Work 목록 하나**(필터 6개: All + 5개 분야, 개수 표시) → Contact.
+- `/` 홈: 큰 제목 + 소개(문구 그대로) 뒤로 **화면 오른쪽 밖으로 잘린 큰 구**(어두운 구, 초록 테두리 빛) → **Work 목록 하나**(고정 바: 미니 리본 + 현재 분야 + 필터) → Contact. 레퍼런스: p5aholic.me (Keita Yamada).
 - 분야는 별도 페이지가 아니라 필터. `?field=strategy` 등 주소로 공유된다. 예전 `/strategy/` 주소는 해당 필터로 리다이렉트.
 - `/projects/[slug]/`: Work / 분야 경로 → 프로젝트 이름(초록 라벨) → 요약 한 문장(큰 제목) → Live·GitHub·Notion 링크 → 왼쪽 고정 정보(Client, Period, Role, Fields, Recognition, Stack) + 오른쪽 본문. 본문 섹션은 01·02·03 번호, Approach는 번호 단계, Outcome은 한 줄씩 행. 끝에 다음 프로젝트(요약 포함)와 All work (N). 레퍼런스: Linear 고객 사례, Bain 사례, Pentagram 프로젝트 페이지.
 - `/about/`: 소개, Experience, Toolkit, Other activities.
