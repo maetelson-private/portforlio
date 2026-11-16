@@ -1,6 +1,5 @@
 ---
 import Icon from './Icon.astro';
-import Ribbon3D from './Ribbon3D.astro';
 import { axes, axisOrder, type AxisKey } from '../data/site';
 import type { Project } from '../lib/projects';
 import { url } from '../lib/url';
@@ -22,13 +21,11 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
 
 <section class="work" id="work" aria-labelledby="work-title">
   <div class="container">
+    <h2 id="work-title" class="title">Selected work</h2>
     <div class="bar" data-bar>
       <div class="now">
-        <Ribbon3D variant="mini" />
-        <div class="now-text">
-          <h2 id="work-title">Work</h2>
-          <span class="current" data-current>All fields</span>
-        </div>
+        <span class="now-label">Showing</span>
+        <span class="current" data-current>All fields</span>
       </div>
       <div class="filters" role="group" aria-label="Filter by field" data-filters>
         <button type="button" data-filter="all" aria-pressed="true">
@@ -96,7 +93,6 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
   const emptyEl = root.querySelector('[data-empty]');
   let current = 'all';
 
-  const ribbon = (p) => document.dispatchEvent(new CustomEvent('ribbon:preset', { detail: p }));
 
   function apply(field, push) {
     current = field;
@@ -110,7 +106,6 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
     emptyEl.hidden = shown > 0;
     leadEl.textContent = field === 'all' ? '' : leads[field];
     currentEl.textContent = field === 'all' ? 'All fields' : labels[field];
-    ribbon(field);
     if (push) {
       const u = new URL(location.href);
       if (field === 'all') u.searchParams.delete('field');
@@ -135,15 +130,6 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
     rootMargin: '-69px 0px 0px 0px',
   }).observe(sentinel);
 
-  // 행에 올리면 리본이 그 프로젝트 분야의 형태로, 벗어나면 현재 필터로 돌아간다
-  rows.forEach((r) => {
-    const enter = () => ribbon(r.dataset.primary);
-    const leave = () => ribbon(current);
-    r.addEventListener('pointerenter', enter);
-    r.addEventListener('pointerleave', leave);
-    r.addEventListener('focusin', enter);
-    r.addEventListener('focusout', leave);
-  });
 
   // 모바일 필터 줄: 끝까지 밀면 오른쪽 페이드를 없앤다
   const strip = root.querySelector('[data-filters]');
@@ -178,19 +164,24 @@ const labels = Object.fromEntries(axisOrder.map((k) => [k, axes[k].label]));
   .bar.is-stuck {
     border-bottom-color: var(--line);
   }
-  .now {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  .title {
+    margin-bottom: clamp(24px, 4vw, 40px);
+    font-size: clamp(36px, 6vw, 88px);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
   }
-  .now-text {
+  .now {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
-  h2 {
-    font-size: 12px;
+  .now-label {
+    font-size: 11px;
     font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--muted);
   }
   .current {
