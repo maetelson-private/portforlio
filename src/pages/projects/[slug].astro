@@ -5,6 +5,7 @@ import Icon from '../../components/Icon.astro';
 import { axes, profile } from '../../data/site';
 import { getProjects, type Project } from '../../lib/projects';
 import { url } from '../../lib/url';
+import { projectSchema } from '../../lib/seo';
 
 export async function getStaticPaths() {
   const all = await getProjects();
@@ -37,7 +38,13 @@ const links = [
 ].filter(Boolean) as { label: string; href: string }[];
 ---
 
-<Base title={`${p.title} | Haneul Son`} description={p.summary}>
+<Base
+  title={`${p.title} | Haneul Son`}
+  description={p.summary}
+  ogImage={project.id}
+  ogType="article"
+  schema={projectSchema(project, Astro.site)}
+>
   <article class="cs">
     <header class="container head">
       <nav class="crumbs" aria-label="Breadcrumb">

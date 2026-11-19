@@ -4,11 +4,12 @@ import Hero from '../components/Hero.astro';
 import WorkIndex from '../components/WorkIndex.astro';
 import Contact from '../components/Contact.astro';
 import { getProjects } from '../lib/projects';
+import { homeSchema } from '../lib/seo';
 
 const projects = (await getProjects()).filter((p) => !p.data.archive);
 ---
 
-<Base>
+<Base schema={homeSchema(Astro.site)}>
   <Hero />
   <WorkIndex projects={projects} />
   <Contact />

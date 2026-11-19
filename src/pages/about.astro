@@ -1,4 +1,5 @@
 ---
+import { aboutSchema } from '../lib/seo';
 import Base from '../layouts/Base.astro';
 import Experience from '../components/Experience.astro';
 import Tools from '../components/Tools.astro';
@@ -10,7 +11,7 @@ import { getProjects } from '../lib/projects';
 const archived = (await getProjects()).filter((p) => p.data.archive);
 ---
 
-<Base title="About | Haneul Son" description={profile.intro}>
+<Base title="About | Haneul Son" description={profile.intro} ogImage="about" ogType="profile" schema={aboutSchema(Astro.site)}>
   <header class="head">
     <div class="container">
       <h1>{profile.name}</h1>
